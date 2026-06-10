@@ -25,7 +25,10 @@ async function sendPasswordResetEmail({ to, resetUrl }) {
     auth: {
       user: config.mail.user,
       pass: config.mail.pass
-    }
+    },
+    connectionTimeout: 15000,
+    greetingTimeout: 15000,
+    socketTimeout: 15000
   });
 
   await transporter.sendMail({
