@@ -1,0 +1,232 @@
+﻿        .profile-container {
+            padding-top: 120px;
+            min-height: 100vh;
+            background-color: var(--light-gray);
+        }
+        
+        .profile-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--light-color);
+            padding: 40px 0;
+            margin-bottom: 40px;
+        }
+        
+        .profile-info {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 18px;
+            background-color: rgba(255, 255, 255, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+        
+        .profile-details h2 {
+            font-size: var(--fs-700);
+            margin-bottom: 10px;
+            font-family: var(--font-heading);
+        }
+        
+        .profile-details p {
+            opacity: 0.9;
+        }
+        
+        .profile-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--gray);
+            margin-bottom: 30px;
+            background-color: var(--light-color);
+            padding: 0 20px;
+        }
+        
+        .profile-tab {
+            padding: var(--btn-padding-y) var(--btn-padding-x);
+            min-height: var(--btn-height);
+            background: none;
+            border: none;
+            font-family: var(--font-sans);
+            font-size: var(--btn-font-size);
+            cursor: pointer;
+            position: relative;
+            color: var(--dark-gray);
+            transition: var(--transition);
+            flex-shrink: 0;
+            scroll-snap-align: start;
+        }
+
+        .profile-tab:focus-visible {
+            outline: 2px solid var(--ring);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+        
+        .profile-tab.active {
+            color: var(--primary-color);
+        }
+        
+        .profile-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+        
+        .profile-content {
+            padding: 20px;
+        }
+
+        .profile-sections-stack {
+            display: grid;
+            min-height: 200px;
+        }
+        
+        .profile-section {
+            grid-area: 1 / 1;
+            align-self: start;
+            width: 100%;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition:
+                opacity var(--duration-tab) var(--ease-standard),
+                visibility var(--duration-tab) var(--ease-standard);
+        }
+        
+        .profile-section.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            z-index: 1;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .profile-section {
+                transition: none;
+            }
+        }
+        
+        .requests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .request-card {
+            background-color: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 25px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(15, 23, 42, 0.06);
+        }
+        
+        .request-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--gray);
+        }
+
+        .request-header .badge {
+            flex-shrink: 0;
+            align-self: center;
+        }
+        
+        .request-id {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .request-date {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+        
+        .request-service {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .request-car {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: var(--dark-gray);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--dark-gray);
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--gray);
+        }
+
+        .empty-state__btn {
+            width: auto;
+            margin-top: 8px;
+            box-shadow: 0 2px 12px rgba(255, 107, 0, 0.28);
+        }
+
+        .form-card {
+            background-color: var(--light-color);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(15, 23, 42, 0.06);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 768px) {
+            .profile-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .requests-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-tabs {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-container {
+                padding-top: 104px;
+            }
+
+            .profile-header {
+                padding: 28px 0;
+                margin-bottom: 24px;
+            }
+
+            .profile-content {
+                padding: 16px;
+            }
+
+            .form-card {
+                padding: 20px 16px;
+            }
+        }

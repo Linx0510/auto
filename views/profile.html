@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет - АвтоМобилСервис</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/01-tokens.css">
+    <link rel="stylesheet" href="/css/02-base.css">
+    <link rel="stylesheet" href="/css/03-layout.css">
+    <link rel="stylesheet" href="/css/04-components.css">
+    <link rel="stylesheet" href="/css/05-navigation.css">
+    <link rel="stylesheet" href="/css/06-animations.css">
+    <link rel="stylesheet" href="/css/pages/profile.css">
+    <link rel="stylesheet" href="/css/ai-chat.css">
+</head>
+<body>
+    <!-- Навигационная шапка -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="/" class="logo">
+                    <i class="fas fa-car"></i>
+                    <span>АвтоМобил<span class="logo-accent">Сервис</span></span>
+                </a>
+                
+                <div class="nav-links">
+                    <a href="/" class="nav-link">Главная</a>
+                    <a href="/#services" class="nav-link">Услуги</a>
+                    <a href="/#contact" class="nav-link">Записаться</a>
+                    <a href="/admin" class="nav-link is-hidden" id="admin-link">
+                        <i class="fas fa-cogs"></i> Админ
+                    </a>
+                </div>
+                
+                <div class="auth-buttons">
+                    <span class="user-name" id="user-name"></span>
+                    <a href="/logout" class="btn btn-login">
+                        <i class="fas fa-sign-out-alt"></i> Выход
+                    </a>
+                </div>
+                
+                <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="nav-drawer" aria-label="Открыть меню">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+            </nav>
+        </div>
+        <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+        <aside class="nav-drawer" id="nav-drawer" aria-hidden="true" aria-label="Меню">
+            <div class="nav-drawer-inner">
+                <div class="nav-drawer-title">Меню</div>
+                <a href="/" class="nav-link">Главная</a>
+                <a href="/#services" class="nav-link">Услуги</a>
+                <a href="/#contact" class="nav-link">Записаться</a>
+                <a href="/admin" class="nav-link is-hidden" id="admin-link-drawer">
+                    <i class="fas fa-cogs"></i> Админ
+                </a>
+                <div class="nav-drawer-auth">
+                    <div class="auth-buttons">
+                        <span class="user-name" id="user-name-drawer"></span>
+                        <a href="/logout" class="btn btn-login">
+                            <i class="fas fa-sign-out-alt"></i> Выход
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </header>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="container">
+                <div class="profile-info">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-details">
+                        <h2 id="profile-fullname"></h2>
+                        <p id="profile-email"></p>
+                        <p id="profile-phone"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="profile-tabs">
+                <button type="button" class="profile-tab active" data-tab="requests" onclick="showTab('requests', this)">
+                    <i class="fas fa-list-alt"></i> Мои заявки
+                </button>
+                <button type="button" class="profile-tab" data-tab="new-request" onclick="showTab('new-request', this)">
+                    <i class="fas fa-plus-circle"></i> Новая заявка
+                </button>
+                <button type="button" class="profile-tab" data-tab="reviews" onclick="showTab('reviews', this)">
+                    <i class="fas fa-star"></i> Отзыв
+                </button>
+                <button type="button" class="profile-tab" data-tab="profile" onclick="showTab('profile', this)">
+                    <i class="fas fa-user-cog"></i> Настройки
+                </button>
+            </div>
+            
+            <div class="profile-content">
+                <div class="profile-sections-stack">
+                <!-- Мои заявки -->
+                <section id="requests-tab" class="profile-section active" aria-hidden="false">
+                    <h3>История заявок</h3>
+                    <div id="user-requests-container">
+                        <!-- Заявки будут загружены через JS -->
+                    </div>
+                </section>
+                
+                <!-- Новая заявка -->
+                <section id="new-request-tab" class="profile-section" aria-hidden="true">
+                    <h3>Создание новой заявки</h3>
+                    <div class="form-card">
+                        <form id="profile-request-form">
+                            <div class="form-group">
+                                <label for="profile-service">Услуга *</label>
+                                <select id="profile-service" required>
+                                    <option value="">Выберите услугу</option>
+                                    <!-- Услуги будут добавлены через JS -->
+                                </select>
+                            </div>
+                            
+                            <div class="car-select-form" id="profile-car-select">
+                                <div class="form-group">
+                                    <label>Марка автомобиля *</label>
+                                    <div data-car-brand-mount></div>
+                                </div>
+                                <div class="form-group" data-custom-brand-wrap hidden>
+                                    <label for="profile-custom-brand">Марка (вручную) *</label>
+                                    <input type="text" id="profile-custom-brand" data-custom-brand class="form-control" autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label>Модель автомобиля *</label>
+                                    <div data-car-model-mount></div>
+                                </div>
+                                <div class="form-group" data-custom-model-wrap hidden>
+                                    <label for="profile-custom-model">Модель (вручную) *</label>
+                                    <input type="text" id="profile-custom-model" data-custom-model class="form-control" autocomplete="off">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="profile-car-year">Год выпуска</label>
+                                    <input type="number" id="profile-car-year" min="1990" max="2024">
+                                </div>
+                                <div class="form-group">
+                                    <label for="profile-car-number">Госномер</label>
+                                    <input type="text" id="profile-car-number">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="profile-problem">Описание проблемы</label>
+                                <textarea id="profile-problem" rows="4"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="profile-date">Желаемая дата</label>
+                                <input type="date" id="profile-date">
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="fas fa-paper-plane"></i> Отправить заявку
+                            </button>
+                        </form>
+                    </div>
+                </section>
+                
+                <!-- Отзыв -->
+                <section id="reviews-tab" class="profile-section" aria-hidden="true">
+                    <h3>Оставить отзыв</h3>
+                    <div class="form-card">
+                        <form id="profile-review-form">
+                            <div class="form-group">
+                                <label>Оценка *</label>
+                                <div class="rating-stars" role="radiogroup" aria-label="Оценка от 1 до 5">
+                                    <input type="radio" id="review-rating-5" name="rating" value="5">
+                                    <label for="review-rating-5" title="5 из 5"><i class="fas fa-star" aria-hidden="true"></i><span class="sr-only">5</span></label>
+                                    <input type="radio" id="review-rating-4" name="rating" value="4">
+                                    <label for="review-rating-4" title="4 из 5"><i class="fas fa-star" aria-hidden="true"></i><span class="sr-only">4</span></label>
+                                    <input type="radio" id="review-rating-3" name="rating" value="3">
+                                    <label for="review-rating-3" title="3 из 5"><i class="fas fa-star" aria-hidden="true"></i><span class="sr-only">3</span></label>
+                                    <input type="radio" id="review-rating-2" name="rating" value="2">
+                                    <label for="review-rating-2" title="2 из 5"><i class="fas fa-star" aria-hidden="true"></i><span class="sr-only">2</span></label>
+                                    <input type="radio" id="review-rating-1" name="rating" value="1">
+                                    <label for="review-rating-1" title="1 из 5"><i class="fas fa-star" aria-hidden="true"></i><span class="sr-only">1</span></label>
+                                </div>
+                                <small class="form-hint">Отзыв появится на сайте после проверки администратором.</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="review-comment">Комментарий</label>
+                                <textarea id="review-comment" rows="4" maxlength="2000" placeholder="Напишите пару слов о качестве обслуживания (необязательно)"></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="fas fa-paper-plane"></i> Отправить отзыв
+                            </button>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- Настройки профиля -->
+                <section id="profile-tab" class="profile-section" aria-hidden="true">
+                    <h3>Настройки профиля</h3>
+                    <div class="form-card">
+                        <form id="profile-settings-form">
+                            <div class="form-group">
+                                <label for="settings-name">ФИО</label>
+                                <input type="text" id="settings-name">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="settings-email">Email</label>
+                                <input type="email" id="settings-email" disabled>
+                                <small style="color: var(--dark-gray);">Email нельзя изменить</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="settings-phone">Телефон</label>
+                                <input type="tel" id="settings-phone">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="settings-password">Новый пароль</label>
+                                <input type="password" id="settings-password" placeholder="Оставьте пустым, чтобы не менять">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="settings-confirm">Подтверждение пароля</label>
+                                <input type="password" id="settings-confirm">
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="fas fa-save"></i> Сохранить изменения
+                            </button>
+                        </form>
+                    </div>
+                </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/escape-html.js"></script>
+    <script src="/js/toast.js"></script>
+    <script src="/js/searchable-select.js"></script>
+    <script src="/js/car-select-form.js"></script>
+    <script>
+        // Загрузка данных пользователя и заявок
+        let profileCarSelectForm = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            loadUserRequests();
+            loadServicesForProfile();
+
+            const profileCarSelectRoot = document.getElementById('profile-car-select');
+            if (profileCarSelectRoot && typeof initCarSelectForm === 'function') {
+                profileCarSelectForm = initCarSelectForm(profileCarSelectRoot);
+            }
+            
+            // Настройка обработчиков событий
+            document.getElementById('profile-request-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                submitProfileRequest();
+            });
+
+            const reviewForm = document.getElementById('profile-review-form');
+            if (reviewForm) {
+                reviewForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    submitProfileReview();
+                });
+            }
+            
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navOverlay = document.getElementById('nav-overlay');
+            const navDrawer = document.getElementById('nav-drawer');
+
+            function closeNavDrawer() {
+                document.body.classList.remove('nav-open');
+                if (menuToggle) {
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                }
+                if (navDrawer) {
+                    navDrawer.setAttribute('aria-hidden', 'true');
+                }
+                if (navOverlay) {
+                    navOverlay.setAttribute('aria-hidden', 'true');
+                }
+            }
+
+            function openNavDrawer() {
+                document.body.classList.add('nav-open');
+                if (menuToggle) {
+                    menuToggle.setAttribute('aria-expanded', 'true');
+                }
+                if (navDrawer) {
+                    navDrawer.setAttribute('aria-hidden', 'false');
+                }
+                if (navOverlay) {
+                    navOverlay.setAttribute('aria-hidden', 'false');
+                }
+            }
+
+            if (menuToggle && navOverlay && navDrawer) {
+                menuToggle.addEventListener('click', function() {
+                    if (document.body.classList.contains('nav-open')) {
+                        closeNavDrawer();
+                    } else {
+                        openNavDrawer();
+                    }
+                });
+                navOverlay.addEventListener('click', closeNavDrawer);
+                navDrawer.querySelectorAll('.nav-link').forEach(function(link) {
+                    link.addEventListener('click', function() {
+                        if (window.innerWidth <= 768) {
+                            closeNavDrawer();
+                        }
+                    });
+                });
+            }
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && document.body.classList.contains('nav-open')) {
+                    closeNavDrawer();
+                }
+            });
+
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    closeNavDrawer();
+                }
+            });
+        });
+        
+        // Загрузка данных пользователя
+        function loadUserData() {
+            fetch('/api/my-requests')
+                .then(response => {
+                    if (!response.ok) {
+                        window.location.href = '/login';
+                        return Promise.reject(new Error('unauthorized'));
+                    }
+                    return fetch('/api/user-info');
+                })
+                .then(res => {
+                    if (!res.ok) {
+                        window.location.href = '/login';
+                        return Promise.reject(new Error('user-info'));
+                    }
+                    return res.json();
+                })
+                .then(user => {
+                    document.getElementById('profile-fullname').textContent = user.full_name;
+                    document.getElementById('profile-email').textContent = user.email;
+                    document.getElementById('profile-phone').textContent = user.phone || 'Телефон не указан';
+                    document.getElementById('user-name').textContent = user.full_name;
+                    const userNameDrawer = document.getElementById('user-name-drawer');
+                    if (userNameDrawer) {
+                        userNameDrawer.textContent = user.full_name;
+                    }
+
+                    document.getElementById('settings-name').value = user.full_name;
+                    document.getElementById('settings-email').value = user.email;
+                    document.getElementById('settings-phone').value = user.phone || '';
+
+                    const adminLink = document.getElementById('admin-link');
+                    const adminLinkDrawer = document.getElementById('admin-link-drawer');
+                    if (user.role === 'admin') {
+                        adminLink.classList.remove('is-hidden');
+                        if (adminLinkDrawer) {
+                            adminLinkDrawer.classList.remove('is-hidden');
+                        }
+                    } else {
+                        adminLink.classList.add('is-hidden');
+                        if (adminLinkDrawer) {
+                            adminLinkDrawer.classList.add('is-hidden');
+                        }
+                    }
+                })
+                .catch(error => {
+                    if (error.message === 'unauthorized' || error.message === 'user-info') {
+                        return;
+                    }
+                    console.error('Ошибка загрузки данных пользователя:', error);
+                    window.location.href = '/login';
+                });
+        }
+        
+        function renderUserRequestsSkeleton() {
+            const container = document.getElementById('user-requests-container');
+            if (!container) return;
+            const n = 3;
+            let html = '<div class="skeleton-profile-stack">';
+            for (let i = 0; i < n; i++) {
+                html += '<div class="skeleton skeleton--animate skeleton-profile-card"></div>';
+            }
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // Загрузка заявок пользователя
+        function loadUserRequests() {
+            renderUserRequestsSkeleton();
+            fetch('/api/my-requests')
+                .then(response => response.json())
+                .then(requests => {
+                    const container = document.getElementById('user-requests-container');
+                    
+                    if (requests.length === 0) {
+                        container.innerHTML = `
+                            <div class="empty-state">
+                                <i class="fas fa-clipboard-list"></i>
+                                <h3>Заявок пока нет</h3>
+                                <p>Создайте свою первую заявку на ремонт автомобиля</p>
+                                <button type="button" class="btn btn-primary btn--compact empty-state__btn" onclick="showTab('new-request')">
+                                    Создать заявку
+                                </button>
+                            </div>
+                        `;
+                        return;
+                    }
+                    
+                    container.innerHTML = '';
+                    
+                    // Группируем заявки по статусу
+                    const groupedRequests = {
+                        'pending': [],
+                        'in_progress': [],
+                        'completed': [],
+                        'cancelled': []
+                    };
+                    
+                    requests.forEach(request => {
+                        if (groupedRequests[request.status]) {
+                            groupedRequests[request.status].push(request);
+                        }
+                    });
+                    
+                    // Отображаем заявки по группам
+                    const statusOrder = ['pending', 'in_progress', 'completed', 'cancelled'];
+                    const statusTitles = {
+                        'pending': 'Ожидают обработки',
+                        'in_progress': 'В работе',
+                        'completed': 'Завершены',
+                        'cancelled': 'Отменены'
+                    };
+                    
+                    statusOrder.forEach(status => {
+                        if (groupedRequests[status].length > 0) {
+                            const section = document.createElement('div');
+                            section.className = 'requests-section';
+                            section.innerHTML = `<h4>${statusTitles[status]}</h4>`;
+                            
+                            const grid = document.createElement('div');
+                            grid.className = 'requests-grid';
+                            
+                            groupedRequests[status].forEach(request => {
+                                const card = document.createElement('div');
+                                card.className = 'request-card';
+                                
+                                // Форматирование даты
+                                const date = new Date(request.created_at);
+                                const formattedDate = date.toLocaleDateString('ru-RU', {
+                                    day: 'numeric',
+                                    month: 'long',
+                                    year: 'numeric'
+                                });
+                                
+                                // Статус
+                                const statusText = {
+                                    'pending': 'Ожидание',
+                                    'in_progress': 'В работе',
+                                    'completed': 'Завершено',
+                                    'cancelled': 'Отменено'
+                                }[request.status] || request.status;
+                                
+                                const safeStatus = ['pending', 'in_progress', 'completed', 'cancelled'].indexOf(request.status) >= 0
+                                    ? request.status
+                                    : 'pending';
+                                card.innerHTML = `
+                                    <div class="request-header">
+                                        <div>
+                                            <div class="request-id">Заявка #${request.id}</div>
+                                            <div class="request-date">${formattedDate}</div>
+                                        </div>
+                                        <span class="badge badge--${safeStatus}">${escapeProfileHtml(statusText)}</span>
+                                    </div>
+                                    <div class="request-service">${escapeProfileHtml(request.service_name)} - ${escapeProfileHtml(String(request.price))} ₽</div>
+                                    <div class="request-car">
+                                        <i class="fas fa-car"></i>
+                                        <span>${escapeProfileHtml(request.car_model)} ${escapeProfileHtml(request.car_year || '')} ${escapeProfileHtml(request.car_number || '')}</span>
+                                    </div>
+                                    ${request.problem_description ? `<p><strong>Описание проблемы:</strong> ${escapeProfileHtml(request.problem_description)}</p>` : ''}
+                                    ${request.appointment_date ? `<p><strong>Желаемая дата:</strong> ${escapeProfileHtml(new Date(request.appointment_date).toLocaleDateString('ru-RU'))}</p>` : ''}
+                                `;
+                                
+                                grid.appendChild(card);
+                            });
+                            
+                            section.appendChild(grid);
+                            container.appendChild(section);
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Ошибка загрузки заявок:', error);
+                    const container = document.getElementById('user-requests-container');
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <h3>Ошибка загрузки заявок</h3>
+                            <p>Попробуйте обновить страницу</p>
+                        </div>
+                    `;
+                });
+        }
+        
+        // Загрузка услуг для формы
+        function loadServicesForProfile() {
+            fetch('/api/services')
+                .then(response => response.json())
+                .then(services => {
+                    const select = document.getElementById('profile-service');
+                    select.innerHTML = '<option value="">Выберите услугу</option>';
+                    
+                    services.forEach(service => {
+                        const option = document.createElement('option');
+                        option.value = service.id;
+                        option.textContent = `${service.name} (${service.price} ₽)`;
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Ошибка загрузки услуг:', error);
+                });
+        }
+        
+        function escapeProfileHtml(text) {
+            if (typeof window.escapeHtml === 'function') {
+                return window.escapeHtml(text);
+            }
+            const div = document.createElement('div');
+            div.textContent = text == null ? '' : String(text);
+            return div.innerHTML;
+        }
+
+        // Показать вкладку (tabButton — элемент .profile-tab при клике; без него ищем по data-tab)
+        function showTab(tabId, tabButton) {
+            document.querySelectorAll('.profile-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            const btn = (tabButton && tabButton.classList && tabButton.classList.contains('profile-tab'))
+                ? tabButton
+                : document.querySelector('.profile-tab[data-tab="' + tabId + '"]');
+            if (btn) {
+                btn.classList.add('active');
+            }
+
+            document.querySelectorAll('.profile-section').forEach(section => {
+                section.classList.remove('active');
+                section.setAttribute('aria-hidden', 'true');
+            });
+            const panel = document.getElementById(tabId + '-tab');
+            panel.classList.add('active');
+            panel.setAttribute('aria-hidden', 'false');
+        }
+        
+        // Отправка заявки из личного кабинета
+        function submitProfileRequest() {
+            const serviceId = document.getElementById('profile-service').value;
+            const carYear = document.getElementById('profile-car-year').value;
+            const carNumber = document.getElementById('profile-car-number').value;
+            const problem = document.getElementById('profile-problem').value;
+            const date = document.getElementById('profile-date').value;
+            
+            if (!serviceId) {
+                showNotification('Заполните обязательные поля', 'error');
+                return;
+            }
+
+            if (!profileCarSelectForm) {
+                showNotification('Справочник автомобилей ещё загружается', 'error');
+                return;
+            }
+
+            const carError = profileCarSelectForm.validate();
+            if (carError) {
+                showNotification(carError, 'error');
+                return;
+            }
+
+            const carPayload = profileCarSelectForm.getPayload();
+            
+            const requestData = {
+                service_id: serviceId,
+                car_brand_id: carPayload.car_brand_id,
+                car_model_id: carPayload.car_model_id,
+                custom_brand: carPayload.custom_brand,
+                custom_model: carPayload.custom_model,
+                car_year: carYear || null,
+                car_number: carNumber || '',
+                problem_description: problem || '',
+                appointment_date: date || null
+            };
+            
+            fetch('/api/requests', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification('Заявка успешно создана!', 'success');
+                    
+                    // Очищаем форму
+                    document.getElementById('profile-request-form').reset();
+                    profileCarSelectForm.reset();
+                    
+                    // Обновляем список заявок
+                    loadUserRequests();
+                    
+                    // Переключаемся на вкладку заявок
+                    showTab('requests');
+                } else {
+                    showNotification(data.error || 'Ошибка при создании заявки', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                showNotification('Ошибка соединения с сервером', 'error');
+            });
+        }
+
+        function submitProfileReview() {
+            const ratingEl = document.querySelector('input[name="rating"]:checked');
+            const rating = ratingEl ? Number(ratingEl.value) : null;
+            const comment = document.getElementById('review-comment').value || '';
+
+            if (!rating || rating < 1 || rating > 5) {
+                showNotification('Поставьте оценку от 1 до 5', 'error');
+                return;
+            }
+
+            fetch('/api/reviews', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    rating: rating,
+                    comment: comment
+                })
+            })
+            .then(response => response.json().then(data => ({ ok: response.ok, data })))
+            .then(({ ok, data }) => {
+                if (ok && data.success) {
+                    showNotification('Спасибо! Отзыв отправлен на модерацию.', 'success');
+                    document.getElementById('profile-review-form').reset();
+                    showTab('requests');
+                } else {
+                    showNotification((data && data.error) || 'Не удалось отправить отзыв', 'error');
+                }
+            })
+            .catch(() => showNotification('Ошибка соединения с сервером', 'error'));
+        }
+    </script>
+    <script src="/js/ai-chat-markdown.js" defer></script>
+    <script src="/js/ai-chat.js" defer></script>
+</body>
+</html>

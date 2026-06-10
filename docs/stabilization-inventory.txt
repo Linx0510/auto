@@ -1,0 +1,15 @@
+Stabilization inventory (gallery + uploads)
+
+Modules touched by gallery CRUD / stabilization:
+
+- server.js — mkdir uploads
+- repositories/galleryRepository.js
+- middleware/uploadGallery.js
+- utils/galleryUrls.js
+- utils/safeGalleryFilePath.js — resolved paths for unlink (path traversal)
+- routes/api.js — canonical API router mounted from server.js
+- routes/handlers/galleryListPublic.js — shared GET /gallery handler
+- routes/api/gallery.js — split router (used only if server mounts routes/api/index.js)
+- routes/api/index.js — modular compose (not default mount)
+
+Note: git repository may be unavailable in some workspaces; use local VCS when present.

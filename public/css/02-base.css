@@ -1,0 +1,53 @@
+/* Reset, typography, global utilities */
+.is-hidden {
+    display: none !important;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+body {
+    font-family: var(--font-sans);
+    color: var(--text-color);
+    font-size: var(--fs-400);
+    line-height: var(--lh-base);
+    background-color: var(--light-color);
+    overflow-x: hidden;
+}
+
+/* Lists: opt-in reset helper (avoid global ul/ol changes) */
+.list-reset {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: var(--lh-tight);
+    margin-bottom: 1rem;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+}

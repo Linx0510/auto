@@ -1,0 +1,990 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>АвтоМобилСервис - Качественный ремонт автомобилей</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/01-tokens.css">
+    <link rel="stylesheet" href="/css/02-base.css">
+    <link rel="stylesheet" href="/css/03-layout.css">
+    <link rel="stylesheet" href="/css/04-components.css">
+    <link rel="stylesheet" href="/css/05-navigation.css">
+    <link rel="stylesheet" href="/css/06-animations.css">
+    <link rel="stylesheet" href="/css/pages/home.css">
+    <link rel="stylesheet" href="/css/ai-chat.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚗</text></svg>">
+</head>
+<body>
+    <!-- Навигационная шапка -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="/" class="logo">
+                   <i class="fas fa-car"></i>
+                    <span>АМ<span class="logo-accent">С</span></span>
+                </a>
+                
+                <div class="nav-links">
+                    <a href="#home" class="nav-link">Главная</a>
+                    <a href="#services" class="nav-link">Услуги</a>
+                    <a href="#advantages" class="nav-link">Преимущества</a>
+                    <a href="#director" class="nav-link">Руководитель</a>
+                    <a href="#gallery" class="nav-link">Галерея</a>
+                    <a href="#reviews" class="nav-link">Отзывы</a>
+                    <a href="#contact" class="nav-link">Контакты</a>
+                </div>
+                
+                <div class="auth-buttons">
+                    <button id="auth-button" class="btn btn-login">
+                        <div class="contact-photo-small" aria-hidden="true">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span id="auth-text">Вход</span>
+                    </button>
+                </div>
+                
+                <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="nav-drawer" aria-label="Открыть меню">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+            </nav>
+        </div>
+        <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+        <aside class="nav-drawer" id="nav-drawer" aria-hidden="true" aria-label="Меню сайта">
+            <div class="nav-drawer-inner">
+                <div class="nav-drawer-title">Разделы</div>
+                <a href="#home" class="nav-link">Главная</a>
+                <a href="#services" class="nav-link">Услуги</a>
+                <a href="#advantages" class="nav-link">Преимущества</a>
+                <a href="#director" class="nav-link">Руководитель</a>
+                <a href="#gallery" class="nav-link">Галерея</a>
+                <a href="#reviews" class="nav-link">Отзывы</a>
+                <a href="#contact" class="nav-link">Контакты</a>
+                <div class="nav-drawer-auth">
+                    <div class="auth-buttons">
+                        <button type="button" id="auth-button-mobile" class="btn btn-login">
+                            <div class="contact-photo-small" aria-hidden="true">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <span id="auth-text-mobile">Вход</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </header>
+
+    <!-- Главный экран-баннер -->
+    <section id="home" class="hero reveal">
+        <div class="hero-background"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">АвтоМобилСервис — профессиональный <span class="accent">ремонт</span> вашего автомобиля</h1>
+                <div class="hero-trust-pills" aria-label="Преимущества">
+                    <span class="hero-pill"><span class="hero-pill-mark" aria-hidden="true">✓</span> Гарантия 1 год</span>
+                    <span class="hero-pill-sep" aria-hidden="true">·</span>
+                    <span class="hero-pill"><span class="hero-pill-mark" aria-hidden="true">✓</span> Бесплатная диагностика</span>
+                    <span class="hero-pill-sep" aria-hidden="true">·</span>
+                    <span class="hero-pill"><span class="hero-pill-mark" aria-hidden="true">✓</span> Запчасти оригинал</span>
+                    <span class="hero-pill-sep" aria-hidden="true">·</span>
+                    <span class="hero-pill"><span class="hero-pill-mark" aria-hidden="true">✓</span> Эвакуатор 24/7</span>
+                </div>
+                <p class="hero-subtitle">Быстро, качественно, с гарантией. Опытные мастера, современное оборудование и доступные цены.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary btn-lg btn-pulse" type="button" onclick="scrollToContact()">
+                        
+                        Записаться онлайн
+                    </button>
+                    <button class="btn btn-outline btn-lg" onclick="scrollToServices()">
+                       
+                        Наши услуги
+                    </button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="car-photo">
+                    <img
+                        src="/images/бан.jpg"
+                        srcset="/images/бан.jpg 1x, /images/бан.jpg 2x"
+                        sizes="(max-width: 768px) 90vw, 50vw"
+                        alt="Современный автосервис"
+                        loading="eager"
+                        decoding="async">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Блок услуги -->
+    <section id="services" class="section services reveal">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Наши <span class="accent">услуги</span></h2>
+                <p class="section-subtitle">Мы предлагаем полный спектр услуг по ремонту и обслуживанию автомобилей</p>
+            </div>
+
+            <div class="services-grid" id="services-container"></div>
+
+            <div class="text-center">
+                <button class="btn btn-primary btn-lg" onclick="scrollToContact()">
+                    Записаться на услугу
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Блок преимущества -->
+    <section id="advantages" class="section advantages reveal">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Наши <span class="accent">преимущества</span></h2>
+                <p class="section-subtitle">Почему клиенты выбирают именно наш автосервис</p>
+            </div>
+
+            <div class="why-us-metrics" id="why-us-metrics">
+                <div class="why-us-metric" data-metric-target="15" data-metric-suffix="+">
+                    <div class="why-us-metric-value"><span class="why-us-metric-num">0</span><span class="why-us-metric-suf">+</span></div>
+                    <div class="why-us-metric-label">Лет опыта</div>
+                </div>
+                <div class="why-us-metric" data-metric-target="10000" data-metric-suffix="+" data-metric-format="space">
+                    <div class="why-us-metric-value"><span class="why-us-metric-num">0</span><span class="why-us-metric-suf">+</span></div>
+                    <div class="why-us-metric-label">Довольных клиентов</div>
+                </div>
+                <div class="why-us-metric" data-metric-target="98" data-metric-suffix="%">
+                    <div class="why-us-metric-value"><span class="why-us-metric-num">0</span><span class="why-us-metric-suf">%</span></div>
+                    <div class="why-us-metric-label">Положительных отзывов</div>
+                </div>
+            </div>
+            
+            <div class="advantages-grid">
+                <div class="advantage-card reveal" style="--reveal-i: 0">
+                    <div class="advantage-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2">
+                            <path d="M20 12V20H4V12M22 7L12 2L2 7V12H22V7Z" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 22V12" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="advantage-content">
+                        <h3 class="advantage-title">Гарантия качества</h3>
+                        <p class="advantage-text">На все виды работ предоставляется гарантия до 2 лет. Используем только оригинальные и сертифицированные запчасти.</p>
+                    </div>
+                </div>
+                
+                <div class="advantage-card reveal" style="--reveal-i: 1">
+                    <div class="advantage-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2">
+                            <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M19.4 15C19.8 15.8 20 16.6 20 17.5C20 19.4 18.4 21 16.5 21H7.5C5.6 21 4 19.4 4 17.5C4 16.6 4.2 15.8 4.6 15" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16.5 3C18.4 3 20 4.6 20 6.5C20 7.4 19.8 8.2 19.4 9" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M7.5 3C5.6 3 4 4.6 4 6.5C4 7.4 4.2 8.2 4.6 9" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="advantage-content">
+                        <h3 class="advantage-title">Опытные мастера</h3>
+                        <p class="advantage-text">Сертифицированные специалисты с опытом работы более 10 лет. Регулярное повышение квалификации.</p>
+                    </div>
+                </div>
+                
+                <div class="advantage-card reveal" style="--reveal-i: 2">
+                    <div class="advantage-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#FF9800" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="advantage-content">
+                        <h3 class="advantage-title">Экономия времени</h3>
+                        <p class="advantage-text">Большинство ремонтов выполняем в день обращения. Предоставляем автомобиль-замену при длительном ремонте.</p>
+                    </div>
+                </div>
+                
+                <div class="advantage-card reveal" style="--reveal-i: 3">
+                    <div class="advantage-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#7B1FA2" stroke-width="2">
+                            <rect x="2" y="2" width="20" height="20" rx="2" ry="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <line x1="8" y1="2" x2="8" y2="22" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 2V6" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 10V14" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 18V22" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="advantage-content">
+                        <h3 class="advantage-title">Современное оборудование</h3>
+                        <p class="advantage-text">Новейшее диагностическое и ремонтное оборудование от ведущих мировых производителей.</p>
+                    </div>
+                </div>
+                
+                <div class="advantage-card reveal" style="--reveal-i: 4">
+                    <div class="advantage-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#D32F2F" stroke-width="2">
+                            <path d="M12 1V23" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M17 5H9.5C8.57174 5 7.6815 5.36875 7.02513 6.02513C6.36875 6.6815 6 7.57174 6 8.5C6 9.42826 6.36875 10.3185 7.02513 10.9749C7.6815 11.6313 8.57174 12 9.5 12H14.5C15.4283 12 16.3185 12.3687 16.9749 13.0251C17.6313 13.6815 18 14.5717 18 15.5C18 16.4283 17.6313 17.3185 16.9749 17.9749C16.3185 18.6313 15.4283 19 14.5 19H6" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="advantage-content">
+                        <h3 class="advantage-title">Прозрачные цены</h3>
+                        <p class="advantage-text">Фиксированные цены на услуги, без скрытых платежей. Бесплатная диагностика при последующем ремонте.</p>
+                    </div>
+                </div>
+                
+                <div class="advantage-card reveal" style="--reveal-i: 5">
+                    <div class="advantage-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#455A64" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 6V12L16 14" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 12L8 8" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 8L12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="advantage-content">
+                        <h3 class="advantage-title">Круглосуточный сервис</h3>
+                        <p class="advantage-text">Работаем 24/7. Круглосуточная служба эвакуации по всему городу. Экстренный выезд мастера.</p>
+                    </div>
+                </div>
+            </div>
+            
+            
+        </div>
+    </section>
+
+    <!-- Блок о руководителе -->
+    <section id="director" class="section director reveal">
+        <div class="container">
+            <div class="director-content">
+                <div class="director-image">
+                    <div class="director-real-photo">
+                        <img
+                            src="/images/michael1.jpg"
+                            srcset="/images/michael1.jpg 1x, /images/michael1.jpg 2x"
+                            sizes="(max-width: 768px) 80vw, 40vw"
+                            alt="Руководитель сервиса"
+                            loading="lazy"
+                            decoding="async">
+                    </div>
+                </div>
+                <div class="director-info">
+                    <h2 class="section-title">Руководитель <span class="accent">сервиса</span></h2>
+                    <h3 class="director-name">Артамонов Михаил Сергеевич</h3>
+                    <div class="director-description">
+                        <p>Основал "АвтоМобилСервис" в 2010 году с целью предоставления качественных и доступных услуг по ремонту автомобилей.</p>
+                        <p>Под его руководством сервис вырос от небольшой мастерской до современного автотехцентра с командой из 15 профессионалов.</p>
+                    </div>
+                    <div class="director-quote">
+                        <i class="fas fa-quote-left"></i>
+                        <p>Наша цель - не просто починить автомобиль, а обеспечить его надежную и безопасную эксплуатацию для наших клиентов.</p>
+                        <i class="fas fa-quote-right"></i>
+                    </div>
+                    <div class="director-contacts">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope" aria-hidden="true"></i>
+                            <span>admin@auto-mo-bil.ru</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone" aria-hidden="true"></i>
+                            <span>+7 (922) 884-72-92</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Блок фотогалерея -->
+    <section id="gallery" class="section gallery reveal">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Фотогалерея <span class="accent">нашего сервиса</span></h2>
+                <p class="section-subtitle">Убедитесь в качестве нашего оборудования и чистоте помещений</p>
+            </div>
+            
+            <div class="gallery-grid" id="home-gallery-grid"></div>
+        </div>
+    </section>
+
+    <!-- Блок отзывы -->
+    <section id="reviews" class="section reviews reveal">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Отзывы <span class="accent">клиентов</span></h2>
+                <p class="section-subtitle">Что говорят о нас наши клиенты</p>
+            </div>
+
+            <div class="reviews-slider" id="home-reviews-slider" aria-live="polite"></div>
+
+            <div class="text-center">
+                <button class="btn btn-outline" onclick="openReviewModal()">
+                   
+                    Оставить отзыв
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Блок с обратной связью и картой -->
+    <section id="contact" class="section contact reveal">
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-form">
+                    <h2 class="section-title">Обратная <span class="accent">связь</span></h2>
+                    <p class="section-subtitle">Запишитесь на обслуживание или задайте вопрос</p>
+                    
+                    <form id="request-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Ваше имя *</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Телефон *</label>
+                                <input type="tel" id="phone" name="phone" required>
+                            </div>
+                        </div>
+                        
+                        <div class="car-select-form" id="home-car-select">
+                            <div class="form-group">
+                                <label>Марка автомобиля *</label>
+                                <div data-car-brand-mount></div>
+                            </div>
+                            <div class="form-group" data-custom-brand-wrap hidden>
+                                <label for="home-custom-brand">Марка (вручную) *</label>
+                                <input type="text" id="home-custom-brand" data-custom-brand class="form-control" autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <label>Модель автомобиля *</label>
+                                <div data-car-model-mount></div>
+                            </div>
+                            <div class="form-group" data-custom-model-wrap hidden>
+                                <label for="home-custom-model">Модель (вручную) *</label>
+                                <input type="text" id="home-custom-model" data-custom-model class="form-control" autocomplete="off">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="car-year">Год выпуска</label>
+                                <input type="number" id="car-year" name="car_year" min="1990" max="2024">
+                            </div>
+                            <div class="form-group">
+                                <label for="car-number">Госномер</label>
+                                <input type="text" id="car-number" name="car_number">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="service">Услуга *</label>
+                            <select id="service" name="service_id" required>
+                                <option value="">Выберите услугу</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="problem">Описание проблемы</label>
+                            <textarea id="problem" name="problem_description" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="date">Желаемая дата</label>
+                            <input type="date" id="date" name="appointment_date">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-block btn--compact">
+                            <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                            Отправить заявку
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="contact-info">
+                    <div class="info-card">
+                        <h3>Контактная информация</h3>
+                        
+                        <div class="contact-item">
+                            <div class="contact-photo-small" aria-hidden="true"><i class="fas fa-location-dot"></i></div>
+                            <div class="contact-text">
+                                <strong>Адрес:</strong>
+                                <span>г. Оренбург, ул. Промышленная, д. 15</span>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-photo-small" aria-hidden="true"><i class="fas fa-phone"></i></div>
+                            <div class="contact-text">
+                                <strong>Телефон:</strong>
+                                <span>+7 (922) 884-72-92</span>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-photo-small" aria-hidden="true"><i class="fas fa-envelope"></i></div>
+                            <div class="contact-text">
+                                <strong>Email:</strong>
+                                <span>info@automobilservice.ru</span>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-photo-small" aria-hidden="true"><i class="fas fa-clock"></i></div>
+                            <div class="contact-text">
+                                <strong>Режим работы:</strong>
+                                <span>Пн-Пт: 9:00 - 20:00</span>
+                                <span>Сб-Вс: 9:00 - 18:00</span>
+                            </div>
+                        </div>
+                        
+                        <div class="social-links">
+                            <h4>Мы в соцсетях</h4>
+                            <div class="social-icons">
+                                <a href="https://t.me/Taif_Mobil1" class="social-icon" aria-label="Telegram" rel="noopener noreferrer">
+                                    <i class="fab fa-telegram" aria-hidden="true"></i>
+                                </a>
+                                <a href="https://max.ru/u/f9LHodD0cOLRzOqzJIFsN7bi3UUma0nonned8ZrFDZvRe2Fkje72pGDp-yM" class="social-icon" aria-label="WhatsApp">
+                                    <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div
+                        class="map-real-container"
+                        id="map-real-container"
+                        data-map-src="https://yandex.ru/map-widget/v1/?um=constructor%3Afcb0ae4069179cbc20bd25b4df57bd4e48f69ba1359c0703e43ae0768e671eeb&amp;source=constructor"
+                        role="region"
+                        aria-label="Карта проезда">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <a href="/" class="logo">
+                        <i class="fas fa-car"></i>
+                        <span>АМ<span class="logo-accent">С</span></span>
+                    </a>
+                    <p class="footer-text">Качественный ремонт и обслуживание автомобилей с 2010 года. Гарантия на все виды работ.</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h4 class="footer-title">Услуги</h4>
+                    <ul class="footer-links">
+                        <li><a href="#services">Диагностика</a></li>
+                        <li><a href="#services">Ремонт двигателя</a></li>
+                        <li><a href="#services">Тормозная система</a></li>
+                        <li><a href="#services">Шиномонтаж</a></li>
+                        <li><a href="#services">Кузовной ремонт</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4 class="footer-title">Контакты</h4>
+                    <ul class="footer-contacts">
+                        <li>
+                            <div class="contact-photo-small" aria-hidden="true"><i class="fas fa-location-dot"></i></div>
+                            г. Оренбург, ул. Промышленная, д. 15
+                        </li>
+                        <li>
+                            <div class="contact-photo-small" aria-hidden="true"><i class="fas fa-phone"></i></div>
+                           +7 (922) 884-72-92
+                        </li>
+                        <li>
+                            <div class="contact-photo-small" aria-hidden="true"><i class="fas fa-envelope"></i></div>
+                            info@automobilservice.ru
+                        </li>
+                        <li>
+                            <div class="contact-photo-small" aria-hidden="true"><i class="fas fa-clock"></i></div>
+                            Пн-Пт: 8:00-20:00, Сб-Вс: 9:00-18:00
+                        </li>
+                    </ul>
+                </div>
+                
+               
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 "АвтоМобилСервис". Все права защищены.</p>
+                <div class="footer-links-bottom">
+                    <a href="https://automattic.com/privacy/">Политика конфиденциальности</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/escape-html.js"></script>
+    <script src="/js/toast.js"></script>
+    <script src="/js/searchable-select.js"></script>
+    <script src="/js/car-select-form.js"></script>
+    <script>
+      // Упрощенный JavaScript для работы с формами
+document.addEventListener('DOMContentLoaded', function() {
+    // Проверка статуса авторизации
+    checkAuthStatus();
+    
+    // Установка минимальной даты для формы
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('date').min = today;
+    
+    // Настройка обработчиков событий
+    setupEventListeners();
+
+    const homeCarSelectRoot = document.getElementById('home-car-select');
+    if (homeCarSelectRoot && typeof initCarSelectForm === 'function') {
+        homeCarSelectForm = initCarSelectForm(homeCarSelectRoot);
+    }
+
+    loadHomeGallery();
+    loadHomeReviews();
+    initLazyMap();
+    
+    // Проверяем, если это страница дашборда
+    if (window.location.pathname.includes('admin') || 
+        window.location.pathname.includes('dashboard')) {
+        checkAdminAccess();
+    }
+});
+
+function normalizeGalleryImageUrlForHome(image_url) {
+    if (image_url == null || typeof image_url !== 'string') {
+        return '';
+    }
+    const u = image_url.trim();
+    if (!u) return '';
+    if (u.startsWith('http://') || u.startsWith('https://') || u.startsWith('/')) {
+        return u;
+    }
+    return '/uploads/' + u.replace(/^\/+/, '');
+}
+
+function escapeHtmlAttr(str) {
+    if (typeof window.escapeAttr === 'function') {
+        return window.escapeAttr(str);
+    }
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+        .replace(/</g, '&lt;');
+}
+
+function escapeHtmlTextContent(text) {
+    if (typeof window.escapeHtml === 'function') {
+        return window.escapeHtml(text);
+    }
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function loadHomeGallery() {
+    const grid = document.getElementById('home-gallery-grid');
+    if (!grid) {
+        return;
+    }
+
+    const skeletonCount = 8;
+    let skel = '<div class="skeleton-grid-gallery">';
+    for (let i = 0; i < skeletonCount; i++) {
+        skel += '<div class="skeleton skeleton--animate skeleton--gallery"></div>';
+    }
+    skel += '</div>';
+    grid.innerHTML = skel;
+
+    fetch('/api/gallery')
+        .then(response => response.json())
+        .then(items => {
+            grid.innerHTML = '';
+            if (!items.length) {
+                grid.innerHTML =
+                    '<p class="section-subtitle" style="grid-column: 1 / -1; text-align: center;">Пока нет фотографий</p>';
+                return;
+            }
+
+            items.forEach((item, index) => {
+                const src = normalizeGalleryImageUrlForHome(item.image_url);
+                const title = item.title || '';
+                const desc = item.description || '';
+                const wrap = document.createElement('div');
+                wrap.className = 'gallery-real-item reveal';
+                wrap.style.setProperty('--reveal-i', String(index % 12));
+                wrap.innerHTML =
+                    '<img src="' + escapeHtmlAttr(src) + '" alt="' + escapeHtmlAttr(title) + '" loading="lazy" decoding="async">' +
+                    '<div class="gallery-overlay-real">' +
+                    '<h4 class="gallery-title">' + escapeHtmlTextContent(title) + '</h4>' +
+                    '<p class="gallery-description">' + escapeHtmlTextContent(desc) + '</p>' +
+                    '</div>';
+                grid.appendChild(wrap);
+            });
+            if (typeof window.refreshScrollReveal === 'function') {
+                window.refreshScrollReveal();
+            }
+        })
+        .catch(() => {
+            grid.innerHTML =
+                '<p class="section-subtitle" style="grid-column: 1 / -1; text-align: center;">Не удалось загрузить галерею</p>';
+        });
+}
+
+function renderHomeReviewStars(rating) {
+    const n = Number(rating);
+    if (!Number.isFinite(n) || n < 1) {
+        return '';
+    }
+    let html = '';
+    for (let i = 1; i <= 5; i += 1) {
+        html += i <= n ? '<i class="fas fa-star" aria-hidden="true"></i>' : '<i class="far fa-star" aria-hidden="true"></i>';
+    }
+    return html;
+}
+
+function loadHomeReviews() {
+    const slider = document.getElementById('home-reviews-slider');
+    if (!slider) {
+        return;
+    }
+
+    const skeletonCount = 3;
+    let skel = '';
+    for (let i = 0; i < skeletonCount; i += 1) {
+        skel += '<div class="review-card"><div class="skeleton skeleton--animate" style="height: 22px; width: 60%; margin-bottom: 14px;"></div>' +
+            '<div class="skeleton skeleton--animate" style="height: 14px; width: 90%; margin-bottom: 8px;"></div>' +
+            '<div class="skeleton skeleton--animate" style="height: 14px; width: 75%;"></div></div>';
+    }
+    slider.innerHTML = skel;
+
+    fetch('/api/reviews')
+        .then(response => response.ok ? response.json() : Promise.reject(new Error('bad_status')))
+        .then(items => {
+            slider.innerHTML = '';
+            if (!items.length) {
+                slider.innerHTML =
+                    '<p class="section-subtitle" style="min-width: 100%; text-align: center; padding: 10px 0;">Пока нет отзывов</p>';
+                return;
+            }
+
+            items.forEach((r, index) => {
+                const fullName = r.full_name || 'Клиент';
+                const rating = r.rating;
+                const comment = r.comment || '';
+                const createdAt = r.created_at ? new Date(r.created_at) : null;
+                const formattedDate = createdAt && !Number.isNaN(createdAt.getTime())
+                    ? createdAt.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })
+                    : '';
+
+                const wrap = document.createElement('div');
+                wrap.className = 'review-card reveal';
+                wrap.style.setProperty('--reveal-i', String(index % 12));
+                wrap.innerHTML =
+                    '<div class="review-header">' +
+                        '<div class="review-avatar" aria-hidden="true"><i class="fas fa-user"></i></div>' +
+                        '<div class="review-info">' +
+                            '<h4>' + escapeHtmlTextContent(fullName) + '</h4>' +
+                            '<div class="review-rating">' + renderHomeReviewStars(rating) + '</div>' +
+                        '</div>' +
+                    '</div>' +
+                    (comment ? '<p class="review-text">' + escapeHtmlTextContent(comment) + '</p>' : '<p class="review-text">—</p>') +
+                    (formattedDate ? '<div class="review-date">' + escapeHtmlTextContent(formattedDate) + '</div>' : '');
+                slider.appendChild(wrap);
+            });
+
+            if (typeof window.refreshScrollReveal === 'function') {
+                window.refreshScrollReveal();
+            }
+        })
+        .catch(() => {
+            slider.innerHTML =
+                '<p class="section-subtitle" style="min-width: 100%; text-align: center; padding: 10px 0;">Не удалось загрузить отзывы</p>';
+        });
+}
+
+function initLazyMap() {
+    const mapContainer = document.getElementById('map-real-container');
+    if (!mapContainer) {
+        return;
+    }
+
+    const mapSrc = mapContainer.getAttribute('data-map-src');
+    if (!mapSrc) {
+        return;
+    }
+
+    const renderMap = function() {
+        if (mapContainer.querySelector('iframe')) {
+            return;
+        }
+        const iframe = document.createElement('iframe');
+        iframe.src = mapSrc;
+        iframe.loading = 'lazy';
+        iframe.setAttribute('frameborder', '0');
+        iframe.setAttribute('title', 'Карта проезда');
+        mapContainer.appendChild(iframe);
+    };
+
+    if (!('IntersectionObserver' in window)) {
+        renderMap();
+        return;
+    }
+
+    const observer = new IntersectionObserver(function(entries, obs) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                renderMap();
+                obs.disconnect();
+            }
+        });
+    }, { rootMargin: '200px 0px' });
+
+    observer.observe(mapContainer);
+}
+
+function checkAuthStatus() {
+    const authButton = document.getElementById('auth-button');
+    const authText = document.getElementById('auth-text');
+    const authButtonMobile = document.getElementById('auth-button-mobile');
+    const authTextMobile = document.getElementById('auth-text-mobile');
+
+    fetch('/api/user-info')
+        .then(response => response.ok ? response.json() : null)
+        .then(user => {
+            if (!user) {
+                return;
+            }
+
+            authText.textContent = user.full_name;
+            if (authTextMobile) {
+                authTextMobile.textContent = user.full_name;
+            }
+            const go = function() {
+                window.location.href = user.role === 'admin' ? '/admin' : '/profile';
+            };
+            authButton.onclick = go;
+            if (authButtonMobile) {
+                authButtonMobile.onclick = go;
+            }
+        })
+        .catch(() => {});
+}
+
+function setupEventListeners() {
+    function bindGuestAuth(btn) {
+        if (!btn) {
+            return;
+        }
+        btn.addEventListener('click', function(e) {
+            if (this.onclick && this.onclick.toString().includes('location.href')) {
+                return;
+            }
+            e.preventDefault();
+            window.location.href = '/login';
+        });
+    }
+
+    bindGuestAuth(document.getElementById('auth-button'));
+    bindGuestAuth(document.getElementById('auth-button-mobile'));
+
+    // Отправка формы заявки
+    const requestForm = document.getElementById('request-form');
+    if (requestForm) {
+        requestForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            submitRequest();
+        });
+    }
+
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navOverlay = document.getElementById('nav-overlay');
+    const navDrawer = document.getElementById('nav-drawer');
+
+    function closeNavDrawer() {
+        document.body.classList.remove('nav-open');
+        if (menuToggle) {
+            menuToggle.setAttribute('aria-expanded', 'false');
+        }
+        if (navDrawer) {
+            navDrawer.setAttribute('aria-hidden', 'true');
+        }
+        if (navOverlay) {
+            navOverlay.setAttribute('aria-hidden', 'true');
+        }
+    }
+
+    function openNavDrawer() {
+        document.body.classList.add('nav-open');
+        if (menuToggle) {
+            menuToggle.setAttribute('aria-expanded', 'true');
+        }
+        if (navDrawer) {
+            navDrawer.setAttribute('aria-hidden', 'false');
+        }
+        if (navOverlay) {
+            navOverlay.setAttribute('aria-hidden', 'false');
+        }
+    }
+
+    if (menuToggle && navOverlay && navDrawer) {
+        menuToggle.addEventListener('click', function() {
+            if (document.body.classList.contains('nav-open')) {
+                closeNavDrawer();
+            } else {
+                openNavDrawer();
+            }
+        });
+        navOverlay.addEventListener('click', closeNavDrawer);
+        navDrawer.querySelectorAll('.nav-link').forEach(function(link) {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 768) {
+                    closeNavDrawer();
+                }
+            });
+        });
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && document.body.classList.contains('nav-open')) {
+            closeNavDrawer();
+        }
+    });
+
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            closeNavDrawer();
+        }
+    });
+    
+    // Кнопка выхода из системы (если есть на дашборде)
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function() {
+            window.location.href = '/logout';
+        });
+    }
+}
+
+function openAuthModal() {
+    window.location.href = '/login';
+}
+
+/**
+ * Авторизованным: отзыв пока через ЛК (отдельного экрана отзыва нет).
+ * Неавторизованным: редирект на /login.
+ */
+function openReviewModal() {
+    fetch('/api/user-info')
+        .then(response => {
+            if (response.ok) {
+                window.location.href = '/profile';
+            } else {
+                openAuthModal();
+            }
+        })
+        .catch(() => {
+            openAuthModal();
+        });
+}
+
+let homeCarSelectForm = null;
+
+function submitRequest() {
+    const form = document.getElementById('request-form');
+    const formData = new FormData(form);
+
+    if (!homeCarSelectForm) {
+        showNotification('Справочник автомобилей ещё загружается', 'error');
+        return;
+    }
+
+    const carError = homeCarSelectForm.validate();
+    if (carError) {
+        showNotification(carError, 'error');
+        return;
+    }
+
+    const carPayload = homeCarSelectForm.getPayload();
+
+    fetch('/api/my-requests')
+        .then(response => {
+            if (!response.ok) {
+                openAuthModal();
+                return Promise.reject('AUTH_REQUIRED');
+            }
+
+            return fetch('/api/requests', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    service_id: formData.get('service_id'),
+                    car_brand_id: carPayload.car_brand_id,
+                    car_model_id: carPayload.car_model_id,
+                    custom_brand: carPayload.custom_brand,
+                    custom_model: carPayload.custom_model,
+                    car_year: formData.get('car_year'),
+                    car_number: formData.get('car_number'),
+                    problem_description: formData.get('problem_description'),
+                    appointment_date: formData.get('appointment_date')
+                })
+            });
+        })
+        .then(response => response ? response.json() : null)
+        .then(data => {
+            if (!data) {
+                return;
+            }
+
+            if (data.success) {
+                showNotification('Заявка успешно отправлена!', 'success');
+                form.reset();
+                homeCarSelectForm.reset();
+            } else {
+                showNotification(data.error || 'Ошибка при создании заявки', 'error');
+            }
+        })
+        .catch(error => {
+            if (error !== 'AUTH_REQUIRED') {
+                console.error('Request error:', error);
+                showNotification('Ошибка соединения с сервером', 'error');
+            }
+        });
+}
+
+function checkAdminAccess() {
+    fetch('/api/user-info')
+        .then(response => response.ok ? response.json() : null)
+        .then(user => {
+            if (!user || user.role !== 'admin') {
+                showNotification('Доступ запрещён. Требуются права администратора.', 'error');
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1000);
+                return;
+            }
+        })
+        .catch(() => {
+            window.location.href = '/login';
+        });
+}
+
+function scrollToContact() {
+    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+}
+
+function scrollToServices() {
+    document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
+}
+    </script>
+    <script src="/socket.io/socket.io.js" defer></script>
+    <script src="/js/scroll-reveal.js" defer></script>
+    <script src="/js/header-scroll.js" defer></script>
+    <script src="/js/metrics-counter.js" defer></script>
+    <script src="/js/home-services.js" defer></script>
+    <script src="/js/ai-chat-markdown.js" defer></script>
+    <script src="/js/ai-chat.js" defer></script>
+</body>
+</html>

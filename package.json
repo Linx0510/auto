@@ -1,0 +1,28 @@
+{
+  "name": "automobilservice",
+  "version": "1.0.0",
+  "description": "Сайт для автомобильного сервиса 'АвтоМобилСервис'",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "smoke": "node scripts/stabilization-smoke.js",
+    "test:gallery-path": "node scripts/test-safe-gallery-path.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "dotenv": "^17.4.2",
+    "ejs": "^3.1.10",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.10.1",
+    "path": "^0.12.7",
+    "pg": "^8.20.0",
+    "socket.io": "^4.8.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

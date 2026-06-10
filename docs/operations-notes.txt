@@ -1,0 +1,21 @@
+Operations notes (stabilization)
+
+Environment
+
+- DATABASE_URL — обязателен для старта (см. database/database.js). Пример в .env.example.
+- STABILIZATION_BASE_URL — опционально для scripts/stabilization-smoke.js (по умолчанию http://127.0.0.1:3000).
+
+Uploads
+
+- Каталог public/uploads создаётся при старте server.js.
+- Резервное копирование: включите файлы uploads и дамп PostgreSQL в регламент бэкапа.
+
+Known limitations
+
+- Сиды gallery в database/database.js задают image_url как имя файла без загрузки самого файла; превью могут быть «битыми», пока админ не загрузит изображения через CRUD.
+
+Negative upload tests (manual)
+
+- Файл больше config.upload.maxFileSize → ожидайте 400 от POST /api/admin/gallery.
+- Неподдерживаемый MIME → 400.
+- POST без файла или без title → 400.

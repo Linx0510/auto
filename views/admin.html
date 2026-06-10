@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ панель - АвтоМобилСервис</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/01-tokens.css">
+    <link rel="stylesheet" href="/css/02-base.css">
+    <link rel="stylesheet" href="/css/03-layout.css">
+    <link rel="stylesheet" href="/css/04-components.css">
+    <link rel="stylesheet" href="/css/05-navigation.css">
+    <link rel="stylesheet" href="/css/06-animations.css">
+    <link rel="stylesheet" href="/css/pages/admin.css">
+</head>
+<body class="page-admin">
+    <!-- Навигационная шапка -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="/" class="logo">
+                    <i class="fas fa-car"></i>
+                    <span>АвтоМобил<span class="logo-accent">Сервис</span></span>
+                </a>
+                
+                <div class="nav-links">
+                    <a href="/" class="nav-link">Вернуться на сайт</a>
+                   
+                </div>
+                
+                <div class="auth-buttons">
+                    <span class="user-name" id="admin-name"style="color: white !important"></span>
+                    <a href="/logout" class="btn btn-login">
+                        <i class="fas fa-sign-out-alt"></i> Выход
+                    </a>
+                </div>
+                
+                <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="nav-drawer" aria-label="Открыть меню">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+            </nav>
+        </div>
+        <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+        <aside class="nav-drawer" id="nav-drawer" aria-hidden="true" aria-label="Меню">
+            <div class="nav-drawer-inner">
+                <div class="nav-drawer-title">Навигация</div>
+                <a href="/" class="nav-link">На сайт</a>
+                <a href="#stats" class="nav-link">Статистика</a>
+                <a href="#requests" class="nav-link">Заявки</a>
+                <a href="#users" class="nav-link">Пользователи</a>
+                <div class="nav-drawer-auth">
+                    <div class="auth-buttons">
+                        <span class="user-name" id="admin-name-drawer"></span>
+                        <a href="/logout" class="btn btn-login">
+                            <i class="fas fa-sign-out-alt"></i> Выход
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </header>
+
+    <div class="admin-container">
+        <div class="admin-sidebar-overlay" id="admin-sidebar-overlay" aria-hidden="true"></div>
+        <aside class="admin-sidebar" id="admin-sidebar">
+            <div class="admin-logo">
+                <h3><i class="fas fa-cogs"></i> Админ панель</h3>
+            </div>
+            <ul class="admin-menu">
+                <li><a href="#stats" class="active" onclick="showSection('stats', this); return false;">
+                    <i class="fas fa-chart-bar"></i> Статистика
+                </a></li>
+                <li><a href="#requests" onclick="showSection('requests', this); return false;">
+                    <i class="fas fa-list-alt"></i> Заявки
+                </a></li>
+                <li><a href="#users" onclick="showSection('users', this); return false;">
+                    <i class="fas fa-users"></i> Пользователи
+                </a></li>
+                <li><a href="#reviews" onclick="showSection('reviews', this); return false;">
+                    <i class="fas fa-star"></i> Отзывы
+                </a></li>
+                <li><a href="#services" onclick="showSection('services', this); return false;">
+                    <i class="fas fa-wrench"></i> Услуги
+                </a></li>
+                <li><a href="#gallery" onclick="showSection('gallery', this); return false;">
+                    <i class="fas fa-images"></i> Галерея
+                </a></li>
+                <li><a href="/">
+                    <i class="fas fa-external-link-alt"></i> На сайт
+                </a></li>
+            </ul>
+        </aside>
+        
+        <main class="admin-content">
+            <button type="button" class="admin-sidebar-toggle" id="admin-sidebar-toggle" aria-expanded="false" aria-controls="admin-sidebar" aria-label="Открыть меню админки">
+                <i class="fas fa-bars" aria-hidden="true"></i>
+                <span>Меню</span>
+            </button>
+            <div class="admin-sections-stack">
+            <!-- Статистика -->
+            <section id="stats-section" class="admin-section is-active" aria-hidden="false">
+                <div class="admin-header">
+                    <h2><i class="fas fa-chart-bar"></i> Статистика</h2>
+                    <button class="btn btn-primary" onclick="loadStats()">
+                        <i class="fas fa-sync-alt"></i> Обновить
+                    </button>
+                </div>
+                
+                <div class="stats-grid" id="stats-container">
+                    <!-- Статистика будет загружена через JS -->
+                </div>
+                
+                <div class="admin-card">
+                    <h3>Последние заявки</h3>
+                    <div id="recent-requests">
+                        <!-- Последние заявки будут загружены через JS -->
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Управление заявками -->
+            <section id="requests-section" class="admin-section" aria-hidden="true">
+                <div class="admin-header">
+                    <h2><i class="fas fa-list-alt"></i> Управление заявками</h2>
+                    <button class="btn btn-primary" onclick="loadRequests()">
+                        <i class="fas fa-sync-alt"></i> Обновить
+                    </button>
+                </div>
+                
+                <div class="admin-card">
+                    <h3>Фильтры</h3>
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label for="filter-status">Статус</label>
+                            <select id="filter-status" onchange="loadRequests()">
+                                <option value="">Все статусы</option>
+                                <option value="pending">Ожидание</option>
+                                <option value="in_progress">В работе</option>
+                                <option value="completed">Завершено</option>
+                                <option value="cancelled">Отменено</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="filter-start">Дата с</label>
+                            <input type="date" id="filter-start" onchange="loadRequests()">
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="filter-end">Дата по</label>
+                            <input type="date" id="filter-end" onchange="loadRequests()">
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="filter-brand">Марка</label>
+                            <select id="filter-brand" onchange="loadRequests()">
+                                <option value="">Все марки</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label>&nbsp;</label>
+                            <button class="btn btn-outline" onclick="resetFilters()">
+                                <i class="fas fa-times"></i> Сбросить
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="requests-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Клиент</th>
+                                    <th>Услуга</th>
+                                    <th id="sort-car-header" class="admin-sortable-th" title="Сортировать по марке" onclick="toggleBrandSort()">Автомобиль</th>
+                                    <th>Дата</th>
+                                    <th>Статус</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody id="requests-table-body">
+                                <!-- Заявки будут загружены через JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Управление пользователями -->
+            <section id="users-section" class="admin-section" aria-hidden="true">
+                <div class="admin-header">
+                    <h2><i class="fas fa-users"></i> Управление пользователями</h2>
+                    <button type="button" class="btn btn-primary" onclick="loadAdminUsers()">
+                        <i class="fas fa-sync-alt"></i> Обновить
+                    </button>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="table-responsive">
+                        <table class="requests-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>ФИО</th>
+                                    <th>Email</th>
+                                    <th>Телефон</th>
+                                    <th>Роль</th>
+                                    <th>Регистрация</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-table-body">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Отзывы -->
+            <section id="reviews-section" class="admin-section" aria-hidden="true">
+                <div class="admin-header">
+                    <h2><i class="fas fa-star"></i> Отзывы</h2>
+                    <button type="button" class="btn btn-primary" onclick="loadAdminReviews()">
+                        <i class="fas fa-sync-alt"></i> Обновить
+                    </button>
+                </div>
+
+                <div class="admin-card">
+                    <h3>Модерация</h3>
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label for="filter-review-status">Показывать</label>
+                            <select id="filter-review-status" onchange="loadAdminReviews()">
+                                <option value="pending">На модерации</option>
+                                <option value="approved">Одобренные</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="requests-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Клиент</th>
+                                    <th>Оценка</th>
+                                    <th>Текст</th>
+                                    <th>Дата</th>
+                                    <th>Статус</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reviews-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Управление услугами -->
+            <section id="services-section" class="admin-section" aria-hidden="true">
+                <div class="admin-header">
+                    <h2><i class="fas fa-wrench"></i> Управление услугами</h2>
+                    <button class="btn btn-primary" onclick="showAddServiceModal()">
+                        <i class="fas fa-plus"></i> Добавить услугу
+                    </button>
+                </div>
+                
+                <div class="admin-card">
+                    <div id="services-admin-container">
+                        <!-- Услуги будут загружены через JS -->
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Управление галереей -->
+            <section id="gallery-section" class="admin-section" aria-hidden="true">
+                <div class="admin-header">
+                    <h2><i class="fas fa-images"></i> Управление галереей</h2>
+                    <button type="button" class="btn btn-primary" onclick="showGalleryAddModal()">
+                        <i class="fas fa-plus"></i> Добавить фото
+                    </button>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="table-responsive">
+                        <table class="requests-table">
+                            <thead>
+                                <tr>
+                                    <th>Превью</th>
+                                    <th>ID</th>
+                                    <th>Название</th>
+                                    <th>Описание</th>
+                                    <th>Категория</th>
+                                    <th>Дата</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody id="gallery-admin-body">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Модальное окно редактирования заявки -->
+    <div id="edit-request-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="edit-request-modal-title">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="edit-request-modal-title">Редактирование заявки</h3>
+                <button type="button" class="modal-close" onclick="deactivateAdminModal(document.getElementById('edit-request-modal'))" aria-label="Закрыть">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-request-form">
+                    <input type="hidden" id="edit-request-id">
+                    
+                    <div class="form-group">
+                        <label for="edit-status">Статус</label>
+                        <select id="edit-status" required>
+                            <option value="pending">Ожидание</option>
+                            <option value="in_progress">В работе</option>
+                            <option value="completed">Завершено</option>
+                            <option value="cancelled">Отменено</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-notes">Примечания</label>
+                        <textarea id="edit-notes" rows="3"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block">Сохранить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно добавления услуги -->
+    <div id="add-service-modal" class="modal" role="dialog" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Добавление услуги</h3>
+                <button type="button" class="modal-close" onclick="closeServiceModals()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="add-service-form">
+                    <div class="form-group">
+                        <label for="service-name">Название услуги</label>
+                        <input type="text" id="service-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="service-description">Описание</label>
+                        <textarea id="service-description" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="service-price">Цена (₽)</label>
+                            <input type="number" id="service-price" min="0" step="0.01" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="service-duration">Длительность (мин)</label>
+                            <input type="number" id="service-duration" min="1" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="service-category">Категория</label>
+                        <select id="service-category">
+                            <option value="diagnostics">Диагностика</option>
+                            <option value="repair">Ремонт</option>
+                            <option value="maintenance">Обслуживание</option>
+                            <option value="tires">Шины</option>
+                            <option value="electrical">Электрика</option>
+                            <option value="cleaning">Мойка и уборка</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block">Добавить услугу</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно редактирования услуги -->
+    <div id="edit-service-modal" class="modal" role="dialog" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Редактирование услуги</h3>
+                <button type="button" class="modal-close" onclick="closeServiceModals()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-service-form">
+                    <input type="hidden" id="edit-service-id">
+                    <div class="form-group">
+                        <label for="edit-service-name">Название услуги</label>
+                        <input type="text" id="edit-service-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-service-description">Описание</label>
+                        <textarea id="edit-service-description" rows="3" required></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-service-price">Цена (₽)</label>
+                            <input type="number" id="edit-service-price" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-service-duration">Длительность (мин)</label>
+                            <input type="number" id="edit-service-duration" min="1" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-service-category">Категория</label>
+                        <select id="edit-service-category">
+                            <option value="diagnostics">Диагностика</option>
+                            <option value="repair">Ремонт</option>
+                            <option value="maintenance">Обслуживание</option>
+                            <option value="tires">Шины</option>
+                            <option value="electrical">Электрика</option>
+                            <option value="cleaning">Мойка и уборка</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="edit-service-active"> Услуга активна (видна на сайте)
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Сохранить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно: добавление фото в галерею -->
+    <div id="gallery-add-modal" class="modal" role="dialog" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Добавить фото</h3>
+                <button type="button" class="modal-close" onclick="closeGalleryModals()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="gallery-add-form" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="gallery-add-title">Название</label>
+                        <input type="text" id="gallery-add-title" name="title" required maxlength="500">
+                    </div>
+                    <div class="form-group">
+                        <label for="gallery-add-description">Описание</label>
+                        <textarea id="gallery-add-description" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="gallery-add-category">Категория</label>
+                        <select id="gallery-add-category" name="category">
+                            <option value="work">Работы</option>
+                            <option value="premises">Помещение</option>
+                            <option value="team">Команда</option>
+                            <option value="parts">Запчасти</option>
+                            <option value="completed">Готовые работы</option>
+                            <option value="cleaning">Мойка и уборка</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="gallery-add-image">Изображение</label>
+                        <input type="file" id="gallery-add-image" name="image" accept="image/jpeg,image/png,image/gif" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Загрузить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно: редактирование элемента галереи -->
+    <div id="gallery-edit-modal" class="modal" role="dialog" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Редактировать фото</h3>
+                <button type="button" class="modal-close" onclick="closeGalleryModals()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="gallery-edit-form" enctype="multipart/form-data">
+                    <input type="hidden" id="gallery-edit-id" name="id">
+                    <div class="form-group">
+                        <label for="gallery-edit-title">Название</label>
+                        <input type="text" id="gallery-edit-title" name="title" required maxlength="500">
+                    </div>
+                    <div class="form-group">
+                        <label for="gallery-edit-description">Описание</label>
+                        <textarea id="gallery-edit-description" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="gallery-edit-category">Категория</label>
+                        <select id="gallery-edit-category" name="category">
+                            <option value="work">Работы</option>
+                            <option value="premises">Помещение</option>
+                            <option value="team">Команда</option>
+                            <option value="parts">Запчасти</option>
+                            <option value="completed">Готовые работы</option>
+                            <option value="cleaning">Мойка и уборка</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="gallery-edit-image">Новое изображение (необязательно)</label>
+                        <input type="file" id="gallery-edit-image" name="image" accept="image/jpeg,image/png,image/gif">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Сохранить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/modal-focus-trap.js"></script>
+    <script src="/js/escape-html.js"></script>
+    <script src="/js/toast.js"></script>
+    <script src="/js/car-select-form.js"></script>
+    <script>
+        let adminSelfId = null;
+
+        var adminModalFocusTrapUnload = null;
+
+        function clearAdminModalTrap() {
+            if (typeof adminModalFocusTrapUnload === 'function') {
+                adminModalFocusTrapUnload();
+                adminModalFocusTrapUnload = null;
+            }
+        }
+
+        function activateAdminModal(modalEl) {
+            clearAdminModalTrap();
+            document.querySelectorAll('.modal.active').forEach(function (m) {
+                m.classList.remove('active');
+            });
+            modalEl.classList.add('active');
+            adminModalFocusTrapUnload = bindModalFocusTrap(modalEl);
+        }
+
+        function deactivateAdminModal(modalEl) {
+            if (modalEl) {
+                modalEl.classList.remove('active');
+            }
+            clearAdminModalTrap();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/api/user-info')
+                .then(response => response.ok ? response.json() : null)
+                .then(user => {
+                    if (!user || user.role !== 'admin') {
+                        window.location.href = '/login';
+                        return;
+                    }
+
+                    document.getElementById('admin-name').textContent = user.full_name;
+                    const adminNameDrawer = document.getElementById('admin-name-drawer');
+                    if (adminNameDrawer) {
+                        adminNameDrawer.textContent = user.full_name;
+                    }
+                    adminSelfId = user.id;
+                })
+                .catch(() => {
+                    window.location.href = '/login';
+                });
+            
+            // Загружаем статистику
+            loadStats();
+            
+            // Справочник марок для фильтра
+            if (typeof fetchCarBrandsCatalog === 'function') {
+                fetchCarBrandsCatalog()
+                    .then(function(brands) {
+                        populateBrandFilterSelect(document.getElementById('filter-brand'), brands, true);
+                    })
+                    .catch(function() {
+                        showNotification('Не удалось загрузить марки для фильтра', 'error');
+                    });
+            }
+
+            // Загружаем заявки
+            loadRequests();
+            
+            // Загружаем услуги для админки
+            loadAdminServices();
+            
+            // Настройка обработчиков событий
+            document.getElementById('edit-request-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                updateRequest();
+            });
+
+            document.getElementById('gallery-add-form').addEventListener('submit', onGalleryAddSubmit);
+            document.getElementById('gallery-edit-form').addEventListener('submit', onGalleryEditSubmit);
+
+            document.getElementById('add-service-form').addEventListener('submit', onAddServiceSubmit);
+            document.getElementById('edit-service-form').addEventListener('submit', onEditServiceSubmit);
+            
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navOverlay = document.getElementById('nav-overlay');
+            const navDrawer = document.getElementById('nav-drawer');
+
+            function closeNavDrawer() {
+                document.body.classList.remove('nav-open');
+                if (menuToggle) {
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                }
+                if (navDrawer) {
+                    navDrawer.setAttribute('aria-hidden', 'true');
+                }
+                if (navOverlay) {
+                    navOverlay.setAttribute('aria-hidden', 'true');
+                }
+            }
+
+            function openNavDrawer() {
+                document.body.classList.add('nav-open');
+                if (menuToggle) {
+                    menuToggle.setAttribute('aria-expanded', 'true');
+                }
+                if (navDrawer) {
+                    navDrawer.setAttribute('aria-hidden', 'false');
+                }
+                if (navOverlay) {
+                    navOverlay.setAttribute('aria-hidden', 'false');
+                }
+            }
+
+            if (menuToggle && navOverlay && navDrawer) {
+                menuToggle.addEventListener('click', function() {
+                    if (document.body.classList.contains('nav-open')) {
+                        closeNavDrawer();
+                    } else {
+                        openNavDrawer();
+                    }
+                });
+                navOverlay.addEventListener('click', closeNavDrawer);
+                navDrawer.querySelectorAll('.nav-link').forEach(function(link) {
+                    link.addEventListener('click', function() {
+                        if (window.innerWidth <= 768) {
+                            closeNavDrawer();
+                        }
+                    });
+                });
+            }
+
+            const adminSidebarToggle = document.getElementById('admin-sidebar-toggle');
+            const adminSidebarOverlay = document.getElementById('admin-sidebar-overlay');
+            const adminSidebarEl = document.getElementById('admin-sidebar');
+
+            function closeAdminSidebar() {
+                document.body.classList.remove('admin-sidebar-open');
+                if (adminSidebarToggle) {
+                    adminSidebarToggle.setAttribute('aria-expanded', 'false');
+                }
+                if (adminSidebarOverlay) {
+                    adminSidebarOverlay.setAttribute('aria-hidden', 'true');
+                }
+            }
+
+            function openAdminSidebar() {
+                document.body.classList.add('admin-sidebar-open');
+                if (adminSidebarToggle) {
+                    adminSidebarToggle.setAttribute('aria-expanded', 'true');
+                }
+                if (adminSidebarOverlay) {
+                    adminSidebarOverlay.setAttribute('aria-hidden', 'false');
+                }
+            }
+
+            function toggleAdminSidebar() {
+                if (document.body.classList.contains('admin-sidebar-open')) {
+                    closeAdminSidebar();
+                } else {
+                    openAdminSidebar();
+                }
+            }
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key !== 'Escape') {
+                    return;
+                }
+                var openModal = document.querySelector('.modal.active');
+                if (openModal) {
+                    e.preventDefault();
+                    deactivateAdminModal(openModal);
+                    return;
+                }
+                if (document.body.classList.contains('nav-open')) {
+                    closeNavDrawer();
+                    return;
+                }
+                if (document.body.classList.contains('admin-sidebar-open')) {
+                    closeAdminSidebar();
+                }
+            });
+
+            document.querySelectorAll('.modal').forEach(function (modal) {
+                modal.addEventListener('click', function (e) {
+                    if (e.target === modal) {
+                        deactivateAdminModal(modal);
+                    }
+                });
+            });
+
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    closeNavDrawer();
+                }
+                if (window.innerWidth > 992) {
+                    closeAdminSidebar();
+                }
+            });
+
+            if (adminSidebarToggle && adminSidebarOverlay) {
+                adminSidebarToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    toggleAdminSidebar();
+                });
+                adminSidebarOverlay.addEventListener('click', closeAdminSidebar);
+            }
+
+            if (adminSidebarEl) {
+                adminSidebarEl.querySelectorAll('.admin-menu a').forEach(function(link) {
+                    link.addEventListener('click', function() {
+                        if (window.innerWidth <= 992) {
+                            closeAdminSidebar();
+                        }
+                    });
+                });
+            }
+        });
+        
+        // Показать определенный раздел
+        function showSection(sectionId, clickedLink) {
+            document.querySelectorAll('.admin-section').forEach(section => {
+                section.classList.remove('is-active');
+                section.setAttribute('aria-hidden', 'true');
+            });
+
+            const target = document.getElementById(sectionId + '-section');
+            if (target) {
+                target.classList.add('is-active');
+                target.setAttribute('aria-hidden', 'false');
+            }
+
+            document.querySelectorAll('.admin-menu a').forEach(link => {
+                link.classList.remove('active');
+            });
+            if (clickedLink) {
+                clickedLink.classList.add('active');
+            } else {
+                const fallback = document.querySelector('.admin-menu a[href="#' + sectionId + '"]');
+                if (fallback) {
+                    fallback.classList.add('active');
+                }
+            }
+
+            if (sectionId === 'users') {
+                loadAdminUsers();
+            }
+            if (sectionId === 'reviews') {
+                loadAdminReviews();
+            }
+            if (sectionId === 'gallery') {
+                loadAdminGallery();
+            }
+            if (sectionId === 'services') {
+                loadAdminServices();
+            }
+        }
+        
+        function loadAdminUsers() {
+            fetch('/api/admin/users', { credentials: 'same-origin' })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Ошибка загрузки пользователей');
+                    }
+                    return response.json();
+                })
+                .then(users => {
+                    const tbody = document.getElementById('users-table-body');
+                    tbody.innerHTML = '';
+
+                    if (!users.length) {
+                        tbody.innerHTML = '<tr><td colspan="7" class="text-center">Пользователи не найдены</td></tr>';
+                        return;
+                    }
+
+                    users.forEach(u => {
+                        const row = document.createElement('tr');
+                        const regDate = u.created_at
+                            ? new Date(u.created_at).toLocaleDateString('ru-RU')
+                            : '—';
+
+                        row.innerHTML = `
+                            <td data-label="ID">${u.id}</td>
+                            <td data-label="ФИО"><strong>${escapeAdminHtml(u.full_name || '')}</strong></td>
+                            <td data-label="Email">${escapeAdminHtml(u.email || '')}</td>
+                            <td data-label="Телефон">${escapeAdminHtml(u.phone || '')}</td>
+                            <td data-label="Роль">${u.role === 'admin' ? 'Администратор' : 'Клиент'}</td>
+                            <td data-label="Регистрация">${regDate}</td>
+                            <td data-label="Действия">
+                                <select class="user-role-select" data-user-id="${u.id}" data-prev-role="${u.role}" aria-label="Назначить роль">
+                                        <option value="client" ${u.role === 'client' ? 'selected' : ''}>Клиент</option>
+                                        <option value="admin" ${u.role === 'admin' ? 'selected' : ''}>Администратор</option>
+                                    </select>
+                            </td>
+                        `;
+
+                        const sel = row.querySelector('.user-role-select');
+                        sel.addEventListener('change', function() {
+                            onUserRoleSelectChange(this);
+                        });
+
+                        tbody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Ошибка загрузки пользователей:', error);
+                    showNotification('Ошибка загрузки пользователей', 'error');
+                });
+        }
+
+        function renderAdminStars(rating) {
+            const n = Number(rating);
+            if (!Number.isFinite(n) || n < 1) return '';
+            let html = '<span class="review-rating" aria-label="Оценка ' + escapeAdminHtml(String(n)) + ' из 5">';
+            for (let i = 1; i <= 5; i += 1) {
+                html += i <= n ? '<i class="fas fa-star" aria-hidden="true"></i>' : '<i class="far fa-star" aria-hidden="true"></i>';
+            }
+            html += '</span>';
+            return html;
+        }
+
+        function loadAdminReviews() {
+            const status = document.getElementById('filter-review-status')
+                ? document.getElementById('filter-review-status').value
+                : 'pending';
+            const url = '/api/admin/reviews?status=' + encodeURIComponent(status || 'pending');
+
+            fetch(url, { credentials: 'same-origin' })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Ошибка загрузки отзывов');
+                    }
+                    return response.json();
+                })
+                .then(reviews => {
+                    const tbody = document.getElementById('reviews-table-body');
+                    if (!tbody) return;
+                    tbody.innerHTML = '';
+
+                    if (!reviews.length) {
+                        tbody.innerHTML = '<tr><td colspan="7" class="text-center">Отзывов нет</td></tr>';
+                        return;
+                    }
+
+                    reviews.forEach(r => {
+                        const row = document.createElement('tr');
+                        const createdAt = r.created_at
+                            ? new Date(r.created_at).toLocaleString('ru-RU')
+                            : '—';
+                        const statusLabel = r.is_approved
+                            ? '<span class="badge badge--completed">Одобрен</span>'
+                            : '<span class="badge badge--pending">На модерации</span>';
+                        const comment = r.comment ? String(r.comment) : '';
+                        const commentShort = comment.length > 160
+                            ? escapeAdminHtml(comment.slice(0, 160)) + '…'
+                            : escapeAdminHtml(comment);
+
+                        const actionBtnLabel = r.is_approved ? 'Снять' : 'Одобрить';
+                        const actionBtnClass = r.is_approved ? 'btn-delete' : 'btn-edit';
+
+                        row.innerHTML = `
+                            <td data-label="ID">#${escapeAdminHtml(String(r.id))}</td>
+                            <td data-label="Клиент"><strong>${escapeAdminHtml(r.full_name || '')}</strong></td>
+                            <td data-label="Оценка">${renderAdminStars(r.rating)}</td>
+                            <td data-label="Текст">${commentShort || '—'}</td>
+                            <td data-label="Дата">${createdAt}</td>
+                            <td data-label="Статус">${statusLabel}</td>
+                            <td data-label="Действия">
+                                <div class="action-buttons">
+                                    <button type="button" class="btn-icon ${actionBtnClass}" title="${actionBtnLabel}"
+                                        data-review-toggle="${escapeAdminHtml(String(r.id))}"
+                                        data-review-approved="${r.is_approved ? '1' : '0'}">
+                                        <i class="${r.is_approved ? 'fas fa-ban' : 'fas fa-check'}" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        `;
+
+                        const btn = row.querySelector('[data-review-toggle]');
+                        if (btn) {
+                            btn.addEventListener('click', function() {
+                                const id = Number(this.getAttribute('data-review-toggle'));
+                                const approved = this.getAttribute('data-review-approved') === '1';
+                                toggleReviewApproval(id, !approved);
+                            });
+                        }
+
+                        tbody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error(error);
+                    showNotification('Ошибка загрузки отзывов', 'error');
+                });
+        }
+
+        function toggleReviewApproval(id, isApproved) {
+            if (!Number.isInteger(id) || id < 1) {
+                showNotification('Некорректный идентификатор', 'error');
+                return;
+            }
+
+            fetch('/api/admin/reviews/' + encodeURIComponent(String(id)), {
+                method: 'PATCH',
+                credentials: 'same-origin',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ is_approved: Boolean(isApproved) })
+            })
+                .then(response => response.json().then(data => ({ ok: response.ok, data })))
+                .then(({ ok, data }) => {
+                    if (ok && data.success) {
+                        showNotification(isApproved ? 'Отзыв одобрен' : 'Одобрение снято', 'success');
+                        loadAdminReviews();
+                    } else {
+                        showNotification((data && data.error) || 'Не удалось обновить отзыв', 'error');
+                    }
+                })
+                .catch(() => showNotification('Ошибка соединения с сервером', 'error'));
+        }
+
+        function escapeAdminHtml(text) {
+            if (typeof window.escapeHtml === 'function') {
+                return window.escapeHtml(text);
+            }
+            const div = document.createElement('div');
+            div.textContent = text == null ? '' : String(text);
+            return div.innerHTML;
+        }
+
+        function onUserRoleSelectChange(selectEl) {
+            const userId = Number(selectEl.getAttribute('data-user-id'));
+            const prevRole = selectEl.getAttribute('data-prev-role');
+            const role = selectEl.value;
+
+            if (role === prevRole) {
+                return;
+            }
+
+            if (userId === adminSelfId && prevRole === 'admin' && role === 'client') {
+                if (!confirm('Вы снимете с себя права администратора и будете перенаправлены в личный кабинет. Продолжить?')) {
+                    selectEl.value = prevRole;
+                    return;
+                }
+            }
+
+            fetch('/api/admin/users/' + userId + '/role', {
+                method: 'PATCH',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ role: role })
+            })
+                .then(response => response.json().then(data => ({ ok: response.ok, data: data })))
+                .then(({ ok, data }) => {
+                    if (ok && data.success) {
+                        showNotification('Роль пользователя обновлена', 'success');
+
+                        if (userId === adminSelfId && role === 'client') {
+                            window.location.href = '/profile';
+                            return;
+                        }
+
+                        loadAdminUsers();
+                    } else {
+                        showNotification(data.error || 'Не удалось обновить роль', 'error');
+                        selectEl.value = prevRole;
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                    showNotification('Ошибка соединения с сервером', 'error');
+                    selectEl.value = prevRole;
+                });
+        }
+
+        // Загрузка статистики
+        function loadStats() {
+            fetch('/api/admin/stats')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Ошибка загрузки статистики');
+                    }
+                    return response.json();
+                })
+                .then(stats => {
+                    const container = document.getElementById('stats-container');
+                    container.innerHTML = '';
+                    
+                    const statItems = [
+                        { key: 'total', title: 'Всего заявок', icon: 'fas fa-list' },
+                        { key: 'pending', title: 'Ожидают', icon: 'fas fa-clock' },
+                        { key: 'completed', title: 'Завершено', icon: 'fas fa-check-circle' },
+                        { key: 'users', title: 'Клиентов', icon: 'fas fa-users' },
+                        { key: 'revenue', title: 'Выручка (₽)', icon: 'fas fa-ruble-sign' }
+                    ];
+                    
+                    statItems.forEach(item => {
+                        const value = stats[item.key] || 0;
+                        const statCard = document.createElement('div');
+                        statCard.className = 'stat-card';
+                        statCard.innerHTML = `
+                            <div class="stat-icon">
+                                <i class="${item.icon}"></i>
+                            </div>
+                            <div class="stat-number">${value}</div>
+                            <div class="stat-title">${item.title}</div>
+                        `;
+                        container.appendChild(statCard);
+                    });
+                })
+                .catch(error => {
+                    console.error('Ошибка загрузки статистики:', error);
+                    showNotification('Ошибка загрузки статистики', 'error');
+                });
+        }
+        
+        let adminRequestsSortBy = 'created_at';
+        let adminRequestsSortOrder = 'desc';
+
+        function toggleBrandSort() {
+            const header = document.getElementById('sort-car-header');
+            if (adminRequestsSortBy === 'brand') {
+                adminRequestsSortOrder = adminRequestsSortOrder === 'asc' ? 'desc' : 'asc';
+            } else {
+                adminRequestsSortBy = 'brand';
+                adminRequestsSortOrder = 'asc';
+            }
+            if (header) {
+                header.classList.add('is-active');
+                header.textContent = adminRequestsSortOrder === 'asc'
+                    ? 'Автомобиль ↑'
+                    : 'Автомобиль ↓';
+            }
+            loadRequests();
+        }
+
+        // Загрузка заявок
+        function loadRequests() {
+            const status = document.getElementById('filter-status').value;
+            const startDate = document.getElementById('filter-start').value;
+            const endDate = document.getElementById('filter-end').value;
+            const brandId = document.getElementById('filter-brand').value;
+            
+            let url = '/api/admin/requests';
+            const params = [];
+            
+            if (status) params.push(`status=${encodeURIComponent(status)}`);
+            if (startDate) params.push(`start_date=${encodeURIComponent(startDate)}`);
+            if (endDate) params.push(`end_date=${encodeURIComponent(endDate)}`);
+            if (brandId) params.push(`car_brand_id=${encodeURIComponent(brandId)}`);
+            if (adminRequestsSortBy === 'brand') {
+                params.push('sort_by=brand');
+                params.push(`sort_order=${adminRequestsSortOrder}`);
+            }
+            
+            if (params.length > 0) {
+                url += '?' + params.join('&');
+            }
+            
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Ошибка загрузки заявок');
+                    }
+                    return response.json();
+                })
+                .then(requests => {
+                    const tbody = document.getElementById('requests-table-body');
+                    tbody.innerHTML = '';
+                    
+                    if (requests.length === 0) {
+                        tbody.innerHTML = `
+                            <tr>
+                                <td colspan="7" class="text-center">Заявки не найдены</td>
+                            </tr>
+                        `;
+                        return;
+                    }
+                    
+                    requests.forEach(request => {
+                        const row = document.createElement('tr');
+                        
+                        // Форматирование даты
+                        const date = new Date(request.created_at);
+                        const formattedDate = date.toLocaleDateString('ru-RU');
+                        
+                        // Статус
+                        const statusLabelMap = {
+                            'pending': 'Ожидание',
+                            'in_progress': 'В работе',
+                            'completed': 'Завершено',
+                            'cancelled': 'Отменено'
+                        };
+                        const statusText = statusLabelMap[request.status] != null
+                            ? statusLabelMap[request.status]
+                            : escapeAdminHtml(String(request.status || ''));
+                        
+                        const safeReqStatus = ['pending', 'in_progress', 'completed', 'cancelled'].indexOf(request.status) >= 0
+                            ? request.status
+                            : 'pending';
+                        const statusClass = `badge--${safeReqStatus}`;
+
+                        row.innerHTML = `
+                            <td data-label="ID">#${request.id}</td>
+                            <td data-label="Клиент">
+                                <div><strong>${escapeAdminHtml(request.full_name || '')}</strong></div>
+                                <div style="font-size: 0.85rem; color: #666;">${escapeAdminHtml(request.phone || '')}</div>
+                            </td>
+                            <td data-label="Услуга">${escapeAdminHtml(request.service_name || '')}<br><small>${escapeAdminHtml(String(request.price != null ? request.price : ''))} ₽</small></td>
+                            <td data-label="Автомобиль">${escapeAdminHtml(request.car_model || '')}<br><small>${escapeAdminHtml(String(request.car_year || ''))} ${escapeAdminHtml(String(request.car_number || ''))}</small></td>
+                            <td data-label="Дата">${formattedDate}</td>
+                            <td data-label="Статус"><span class="badge ${statusClass}">${statusText}</span></td>
+                            <td data-label="Действия">
+                                <div class="action-buttons">
+                                    <button class="btn-icon btn-edit" onclick="editRequest(${request.id})" title="Редактировать">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        `;
+                        
+                        tbody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Ошибка загрузки заявок:', error);
+                    showNotification('Ошибка загрузки заявок', 'error');
+                });
+        }
+        
+        // Сброс фильтров
+        function resetFilters() {
+            document.getElementById('filter-status').value = '';
+            document.getElementById('filter-start').value = '';
+            document.getElementById('filter-end').value = '';
+            document.getElementById('filter-brand').value = '';
+            adminRequestsSortBy = 'created_at';
+            adminRequestsSortOrder = 'desc';
+            const header = document.getElementById('sort-car-header');
+            if (header) {
+                header.classList.remove('is-active');
+                header.textContent = 'Автомобиль';
+            }
+            loadRequests();
+        }
+        
+        // Редактирование заявки
+        function editRequest(requestId) {
+            // В реальном приложении здесь бы загружались данные заявки
+            document.getElementById('edit-request-id').value = requestId;
+            activateAdminModal(document.getElementById('edit-request-modal'));
+        }
+        
+        // Обновление заявки
+        function updateRequest() {
+            const requestId = document.getElementById('edit-request-id').value;
+            const status = document.getElementById('edit-status').value;
+            
+            fetch(`/api/admin/requests/${requestId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    deactivateAdminModal(document.getElementById('edit-request-modal'));
+                    showNotification('Статус заявки обновлен', 'success');
+                    loadRequests();
+                    loadStats();
+                } else {
+                    showNotification(data.error || 'Ошибка обновления заявки', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                showNotification('Ошибка соединения с сервером', 'error');
+            });
+        }
+        
+        function closeServiceModals() {
+            document.getElementById('add-service-modal').classList.remove('active');
+            document.getElementById('edit-service-modal').classList.remove('active');
+            clearAdminModalTrap();
+        }
+
+        function showAddServiceModal() {
+            document.getElementById('add-service-form').reset();
+            activateAdminModal(document.getElementById('add-service-modal'));
+        }
+
+        function openEditServiceModal(service) {
+            document.getElementById('edit-service-id').value = service.id;
+            document.getElementById('edit-service-name').value = service.name || '';
+            document.getElementById('edit-service-description').value = service.description || '';
+            document.getElementById('edit-service-price').value = service.price != null ? service.price : '';
+            document.getElementById('edit-service-duration').value =
+                service.duration != null ? service.duration : '';
+            document.getElementById('edit-service-category').value = service.category || 'diagnostics';
+            document.getElementById('edit-service-active').checked = Boolean(service.is_active);
+            activateAdminModal(document.getElementById('edit-service-modal'));
+        }
+
+        function onAddServiceSubmit(e) {
+            e.preventDefault();
+            const body = {
+                name: document.getElementById('service-name').value.trim(),
+                description: document.getElementById('service-description').value,
+                price: document.getElementById('service-price').value,
+                duration: document.getElementById('service-duration').value,
+                category: document.getElementById('service-category').value
+            };
+
+            fetch('/api/admin/services', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            })
+                .then(response => response.json().then(data => ({ ok: response.ok, data })))
+                .then(({ ok, data }) => {
+                    if (ok && data.id) {
+                        closeServiceModals();
+                        loadAdminServices();
+                        showNotification('Услуга добавлена', 'success');
+                    } else {
+                        showNotification(data.error || 'Не удалось добавить услугу', 'error');
+                    }
+                })
+                .catch(() => showNotification('Ошибка соединения с сервером', 'error'));
+        }
+
+        function onEditServiceSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById('edit-service-id').value;
+            const body = {
+                name: document.getElementById('edit-service-name').value.trim(),
+                description: document.getElementById('edit-service-description').value,
+                price: document.getElementById('edit-service-price').value,
+                duration: document.getElementById('edit-service-duration').value,
+                category: document.getElementById('edit-service-category').value,
+                is_active: document.getElementById('edit-service-active').checked
+            };
+
+            fetch('/api/admin/services/' + encodeURIComponent(id), {
+                method: 'PUT',
+                credentials: 'same-origin',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            })
+                .then(response => response.json().then(data => ({ ok: response.ok, data })))
+                .then(({ ok, data }) => {
+                    if (ok && data.id) {
+                        closeServiceModals();
+                        loadAdminServices();
+                        showNotification('Услуга обновлена', 'success');
+                    } else {
+                        showNotification(data.error || 'Не удалось сохранить', 'error');
+                    }
+                })
+                .catch(() => showNotification('Ошибка соединения с сервером', 'error'));
+        }
+
+        function deleteAdminService(id) {
+            if (!confirm('Скрыть услугу с сайта? (заявки сохранятся)')) {
+                return;
+            }
+
+            fetch('/api/admin/services/' + encodeURIComponent(id), {
+                method: 'DELETE',
+                credentials: 'same-origin'
+            })
+                .then(response => response.json().then(data => ({ ok: response.ok, data })))
+                .then(({ ok, data }) => {
+                    if (ok && data.success) {
+                        loadAdminServices();
+                        showNotification('Услуга скрыта с сайта', 'success');
+                    } else {
+                        showNotification((data && data.error) || 'Не удалось выполнить операцию', 'error');
+                    }
+                })
+                .catch(() => showNotification('Ошибка соединения с сервером', 'error'));
+        }
+
+        // Загрузка услуг для админки
+        function loadAdminServices() {
+            fetch('/api/admin/services', { credentials: 'same-origin' })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Ошибка загрузки услуг');
+                    }
+                    return response.json();
+                })
+                .then(services => {
+                    const container = document.getElementById('services-admin-container');
+                    container.innerHTML = '';
+
+                    if (services.length === 0) {
+                        container.innerHTML = '<p>Услуги не найдены</p>';
+                        return;
+                    }
+
+                    const table = document.createElement('table');
+                    table.className = 'requests-table';
+                    table.innerHTML = `
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Название</th>
+                                <th>Описание</th>
+                                <th>Цена</th>
+                                <th>Длительность</th>
+                                <th>Категория</th>
+                                <th>Статус</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="services-admin-body"></tbody>
+                    `;
+
+                    container.appendChild(table);
+
+                    const tbody = document.getElementById('services-admin-body');
+                    services.forEach(service => {
+                        const row = document.createElement('tr');
+                        const statusLabel = service.is_active
+                            ? '<span class="badge badge--completed">Активна</span>'
+                            : '<span class="badge badge--cancelled">Скрыта</span>';
+
+                        row.innerHTML = `
+                            <td data-label="ID">${service.id}</td>
+                            <td data-label="Название">${escapeAdminHtml(service.name || '')}</td>
+                            <td data-label="Описание">${escapeAdminHtml(service.description || '')}</td>
+                            <td data-label="Цена">${service.price} ₽</td>
+                            <td data-label="Длительность">${service.duration != null ? service.duration + ' мин' : '—'}</td>
+                            <td data-label="Категория">${escapeAdminHtml(service.category || '')}</td>
+                            <td data-label="Статус">${statusLabel}</td>
+                            <td data-label="Действия">
+                                <div class="action-buttons">
+                                    <button type="button" class="btn-icon btn-edit" title="Редактировать"
+                                        data-service-edit="${service.id}">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button type="button" class="btn-icon btn-delete" title="Скрыть с сайта"
+                                        data-service-delete="${service.id}" ${service.is_active ? '' : 'disabled'}>
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        `;
+
+                        const svc = service;
+                        row.querySelector('[data-service-edit]').addEventListener('click', function() {
+                            openEditServiceModal(svc);
+                        });
+                        const delBtn = row.querySelector('[data-service-delete]');
+                        if (!delBtn.disabled) {
+                            delBtn.addEventListener('click', function() {
+                                deleteAdminService(svc.id);
+                            });
+                        }
+
+                        tbody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Ошибка загрузки услуг:', error);
+                    showNotification('Ошибка загрузки услуг', 'error');
+                });
+        }
+
+        function closeGalleryModals() {
+            document.getElementById('gallery-add-modal').classList.remove('active');
+            document.getElementById('gallery-edit-modal').classList.remove('active');
+            clearAdminModalTrap();
+        }
+
+        function showGalleryAddModal() {
+            document.getElementById('gallery-add-form').reset();
+            activateAdminModal(document.getElementById('gallery-add-modal'));
+        }
+
+        function loadAdminGallery() {
+            fetch('/api/admin/gallery', { credentials: 'same-origin' })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Ошибка загрузки галереи');
+                    }
+                    return response.json();
+                })
+                .then(items => {
+                    const tbody = document.getElementById('gallery-admin-body');
+                    tbody.innerHTML = '';
+
+                    if (!items.length) {
+                        tbody.innerHTML =
+                            '<tr><td colspan="7" class="text-center">Записей пока нет</td></tr>';
+                        return;
+                    }
+
+                    items.forEach(item => {
+                        const row = document.createElement('tr');
+                        const uploaded = item.uploaded_at
+                            ? new Date(item.uploaded_at).toLocaleString('ru-RU')
+                            : '—';
+                        const imgUrl = item.image_url || '';
+                        const descShort =
+                            item.description && item.description.length > 80
+                                ? escapeAdminHtml(item.description.slice(0, 80)) + '…'
+                                : escapeAdminHtml(item.description || '');
+
+                        row.innerHTML = `
+                            <td data-label="Превью"><img class="gallery-admin-thumb" src="${escapeAdminAttr(imgUrl)}" alt=""></td>
+                            <td data-label="ID">${item.id}</td>
+                            <td data-label="Название">${escapeAdminHtml(item.title || '')}</td>
+                            <td data-label="Описание">${descShort}</td>
+                            <td data-label="Категория">${escapeAdminHtml(item.category || '')}</td>
+                            <td data-label="Дата">${uploaded}</td>
+                            <td data-label="Действия">
+                                <div class="action-buttons">
+                                    <button type="button" class="btn-icon btn-edit" title="Редактировать"
+                                        data-gallery-edit="${item.id}">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button type="button" class="btn-icon btn-delete" title="Удалить"
+                                        data-gallery-delete="${item.id}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        `;
+
+                        row.querySelector('[data-gallery-edit]').addEventListener('click', function() {
+                            openGalleryEditModal(item);
+                        });
+                        row.querySelector('[data-gallery-delete]').addEventListener('click', function() {
+                            deleteGalleryItem(item.id);
+                        });
+
+                        tbody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error(error);
+                    showNotification('Ошибка загрузки галереи', 'error');
+                });
+        }
+
+        function escapeAdminAttr(value) {
+            if (typeof window.escapeAttr === 'function') {
+                return window.escapeAttr(value);
+            }
+            return String(value)
+                .replace(/&/g, '&amp;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;')
+                .replace(/</g, '&lt;');
+        }
+
+        function openGalleryEditModal(item) {
+            document.getElementById('gallery-edit-id').value = item.id;
+            document.getElementById('gallery-edit-title').value = item.title || '';
+            document.getElementById('gallery-edit-description').value = item.description || '';
+            document.getElementById('gallery-edit-category').value = item.category || 'work';
+            document.getElementById('gallery-edit-image').value = '';
+            activateAdminModal(document.getElementById('gallery-edit-modal'));
+        }
+
+        function onGalleryAddSubmit(e) {
+            e.preventDefault();
+            const form = document.getElementById('gallery-add-form');
+            const fd = new FormData(form);
+
+            fetch('/api/admin/gallery', {
+                method: 'POST',
+                credentials: 'same-origin',
+                body: fd
+            })
+                .then(response => response.json().then(data => ({ ok: response.ok, data })))
+                .then(({ ok, data }) => {
+                    if (ok && data.id) {
+                        closeGalleryModals();
+                        form.reset();
+                        loadAdminGallery();
+                        showNotification('Фото добавлено', 'success');
+                    } else {
+                        showNotification(data.error || 'Не удалось добавить фото', 'error');
+                    }
+                })
+                .catch(() => showNotification('Ошибка соединения с сервером', 'error'));
+        }
+
+        function onGalleryEditSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById('gallery-edit-id').value;
+            const fd = new FormData();
+            fd.append('title', document.getElementById('gallery-edit-title').value.trim());
+            fd.append('description', document.getElementById('gallery-edit-description').value);
+            fd.append('category', document.getElementById('gallery-edit-category').value);
+            const fileInput = document.getElementById('gallery-edit-image');
+            if (fileInput.files.length > 0) {
+                fd.append('image', fileInput.files[0]);
+            }
+
+            fetch('/api/admin/gallery/' + encodeURIComponent(id), {
+                method: 'PUT',
+                credentials: 'same-origin',
+                body: fd
+            })
+                .then(response => response.json().then(data => ({ ok: response.ok, data })))
+                .then(({ ok, data }) => {
+                    if (ok && data.id) {
+                        closeGalleryModals();
+                        loadAdminGallery();
+                        showNotification('Запись обновлена', 'success');
+                    } else {
+                        showNotification(data.error || 'Не удалось сохранить', 'error');
+                    }
+                })
+                .catch(() => showNotification('Ошибка соединения с сервером', 'error'));
+        }
+
+        function deleteGalleryItem(id) {
+            if (!confirm('Удалить это фото из галереи?')) {
+                return;
+            }
+
+            fetch('/api/admin/gallery/' + encodeURIComponent(id), {
+                method: 'DELETE',
+                credentials: 'same-origin'
+            })
+                .then(response => response.json().then(data => ({ ok: response.ok, data })))
+                .then(({ ok, data }) => {
+                    if (ok && data.success) {
+                        loadAdminGallery();
+                        showNotification('Удалено', 'success');
+                    } else {
+                        showNotification(data.error || 'Не удалось удалить', 'error');
+                    }
+                })
+                .catch(() => showNotification('Ошибка соединения с сервером', 'error'));
+        }
+    </script>
+</body>
+</html>

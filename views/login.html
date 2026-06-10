@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход - АвтоМобилСервис</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/01-tokens.css">
+    <link rel="stylesheet" href="/css/02-base.css">
+    <link rel="stylesheet" href="/css/03-layout.css">
+    <link rel="stylesheet" href="/css/04-components.css">
+    <link rel="stylesheet" href="/css/05-navigation.css">
+    <link rel="stylesheet" href="/css/06-animations.css">
+    <link rel="stylesheet" href="/css/pages/auth.css">
+    <link rel="stylesheet" href="/css/ai-chat.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <div class="login-logo">
+                    <i class="fas fa-car"></i>
+                    <span>АМ<span style="color: var(--primary-color);">С</span></span>
+                </div>
+                <h2 class="login-title">Вход в систему</h2>
+                <p class="login-subtitle">Для доступа к личному кабинету</p>
+            </div>
+            
+            <div class="login-tabs">
+                <button type="button" class="login-tab active" onclick="showLoginForm('login', this)">Вход</button>
+                <button type="button" class="login-tab" onclick="showLoginForm('register', this)">Регистрация</button>
+                <button type="button" class="login-tab" onclick="showLoginForm('forgot', this)">Восстановление</button>
+            </div>
+            
+            <div class="login-forms-stack">
+            <form id="login-form" class="login-form active" aria-hidden="false">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" placeholder="Введите ваш email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="login-password">Пароль</label>
+                    <input type="password" id="login-password" placeholder="Введите ваш пароль" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block">Войти</button>
+                
+                <div class="form-footer">
+                    <a href="/">Вернуться на главную</a>
+                </div>
+            </form>
+
+            <form id="forgot-form" class="login-form" aria-hidden="true">
+                <p style="color: var(--dark-gray); margin-bottom: 16px;">
+                    Укажите email учётной записи. Если он зарегистрирован, вы получите ссылку для сброса пароля (или проверьте консоль сервера в режиме без SMTP).
+                </p>
+                <div class="form-group">
+                    <label for="forgot-email">Email</label>
+                    <input type="email" id="forgot-email" placeholder="Ваш email" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Отправить ссылку</button>
+                <div class="form-footer">
+                    <a href="/">Вернуться на главную</a>
+                </div>
+            </form>
+            
+            <form id="register-form" class="login-form" aria-hidden="true">
+                <div class="form-group">
+                    <label for="register-name">ФИО *</label>
+                    <input type="text" id="register-name" placeholder="Введите ваше ФИО" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-email">Email *</label>
+                    <input type="email" id="register-email" placeholder="Введите ваш email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-phone">Телефон</label>
+                    <input type="tel" id="register-phone" placeholder="+7 (XXX) XXX-XX-XX">
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-password">Пароль *</label>
+                    <input type="password" id="register-password" placeholder="Придумайте пароль" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-confirm">Подтверждение пароля *</label>
+                    <input type="password" id="register-confirm" placeholder="Повторите пароль" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block">Зарегистрироваться</button>
+                
+                <div class="form-footer">
+                    <a href="/">Вернуться на главную</a>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/toast.js"></script>
+    <script src="/js/escape-html.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/api/user-info')
+                .then(response => response.ok ? response.json() : null)
+                .then(user => {
+                    if (user) {
+                        window.location.href = user.role === 'admin' ? '/admin' : '/profile';
+                    }
+                })
+                .catch(() => {});
+
+            document.getElementById('login-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                login();
+            });
+
+            document.getElementById('register-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                register();
+            });
+
+            document.getElementById('forgot-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                forgotPassword();
+            });
+
+            const today = new Date().toISOString().split('T')[0];
+            document.querySelectorAll('input[type="date"]').forEach(input => {
+                input.min = today;
+            });
+        });
+
+        function showLoginForm(formType, tabButton) {
+            document.querySelectorAll('.login-tab').forEach(function(tab) {
+                tab.classList.remove('active');
+            });
+            if (tabButton) {
+                tabButton.classList.add('active');
+            }
+
+            document.querySelectorAll('.login-form').forEach(function(form) {
+                form.classList.remove('active');
+                form.setAttribute('aria-hidden', 'true');
+            });
+            var activeForm = document.getElementById(formType + '-form');
+            activeForm.classList.add('active');
+            activeForm.setAttribute('aria-hidden', 'false');
+        }
+
+        function forgotPassword() {
+            var email = document.getElementById('forgot-email').value.trim();
+
+            fetch('/api/forgot-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email })
+            })
+            .then(function(response) { return response.json(); })
+            .then(function(data) {
+                if (data.success) {
+                    showNotification('Если указанный email зарегистрирован, на него отправлены инструкции по восстановлению пароля.', 'info');
+                } else {
+                    showNotification(data.error || 'Не удалось выполнить запрос', 'error');
+                }
+            })
+            .catch(function() {
+                showNotification('Ошибка соединения с сервером', 'error');
+            });
+        }
+
+        function login() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            if (!email || !password) {
+                showNotification('Укажите email и пароль', 'error');
+                return;
+            }
+
+            fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = data.user.role === 'admin' ? '/admin' : '/profile';
+                } else {
+                    showNotification(data.error || 'Неверный email или пароль', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Login error:', error);
+                showNotification('Ошибка соединения с сервером', 'error');
+            });
+        }
+
+        function register() {
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const phone = document.getElementById('register-phone').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm').value;
+
+            if (!name || !email || !password || !confirmPassword) {
+                showNotification('Заполните все обязательные поля', 'error');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showNotification('Пароли не совпадают', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                showNotification('Пароль должен содержать не менее 6 символов', 'error');
+                return;
+            }
+
+            fetch('/api/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email,
+                    password,
+                    full_name: name,
+                    phone
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = data.user.role === 'admin' ? '/admin' : '/profile';
+                } else {
+                    showNotification(data.error || 'Ошибка регистрации', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Register error:', error);
+                showNotification('Ошибка соединения с сервером', 'error');
+            });
+        }
+    </script>
+    <script src="/js/ai-chat-markdown.js" defer></script>
+    <script src="/js/ai-chat.js" defer></script>
+</body>
+</html>
