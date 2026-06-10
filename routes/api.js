@@ -673,7 +673,9 @@ router.post('/forgot-password', async (req, res) => {
     const base = config.passwordReset.publicBaseUrl.replace(/\/$/, '');
     const resetUrl = `${base}/reset-password?token=${encodeURIComponent(token)}`;
 
-    await sendPasswordResetEmail({ to: user.email, resetUrl });
+    sendPasswordResetEmail({ to: user.email, resetUrl }).catch((error) => {
+      console.error('sendPasswordResetEmail failed:', error.stack || error);
+    });
 
     return respondOk();
   } catch (error) {
