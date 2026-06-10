@@ -23,6 +23,7 @@ const requestRepository = require('../repositories/requestRepository');
 const { validateRequestCarPayload } = require('../services/requestCarValidation');
 
 const ALLOWED_USER_ROLES = ['admin', 'client'];
+const isProduction = process.env.NODE_ENV === 'production';
 
 function safeUnlinkGalleryFile(image_url) {
   const full = resolveGalleryUploadFilePath(image_url, config.paths.uploads);
@@ -676,8 +677,10 @@ router.post('/forgot-password', async (req, res) => {
 
     return respondOk();
   } catch (error) {
-    console.error('forgot-password:', error);
-    res.status(500).json({ error: 'Ошибка сервера' });
+    console.error('forgot-password:', error.stack || error);
+    const response = { error: 'Ошибка сервера' };
+    if (!isProduction) response.message = error.message;
+    res.status(500).json(response);
   }
 });
 
@@ -709,8 +712,10 @@ router.post('/reset-password', async (req, res) => {
 
     res.json({ success: true });
   } catch (error) {
-    console.error('reset-password:', error);
-    res.status(500).json({ error: 'Ошибка сервера' });
+    console.error('reset-password:', error.stack || error);
+    const response = { error: 'Ошибка сервера' };
+    if (!isProduction) response.message = error.message;
+    res.status(500).json(response);
   }
 });
 
